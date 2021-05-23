@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Harlem.Core\Harlem.Core.csproj" />
+    <ProjectReference Include="..\Harlem.DAL\Harlem.DAL.csproj" />
+    <ProjectReference Include="..\Harlem.Entity\Harlem.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

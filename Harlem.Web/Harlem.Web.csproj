@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\backofis\Data\" />
+    <Folder Include="Areas\backofis\Models\" />
+    <Folder Include="Areas\backofis\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Harlem.BLL\Harlem.BLL.csproj" />
+    <ProjectReference Include="..\Harlem.Core\Harlem.Core.csproj" />
+    <ProjectReference Include="..\Harlem.DAL\Harlem.DAL.csproj" />
+    <ProjectReference Include="..\Harlem.Entity\Harlem.Entity.csproj" />
+  </ItemGroup>
+
+</Project>
