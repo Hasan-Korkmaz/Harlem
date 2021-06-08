@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harlem.Entity", "Harlem.Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harlem.Core", "Harlem.Core\Harlem.Core.csproj", "{9819C3EA-2A19-4FBB-B30A-C013AA67AE03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harlem.Web", "Harlem.Web\Harlem.Web.csproj", "{42C3DEB4-0912-4CC7-98D4-3EBB72BD771A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harlem.Web", "Harlem.Web\Harlem.Web.csproj", "{42C3DEB4-0912-4CC7-98D4-3EBB72BD771A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication2", "WebApplication2\WebApplication2.csproj", "{040BA067-EDCE-4E65-BDB2-A679FD70EC95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{42C3DEB4-0912-4CC7-98D4-3EBB72BD771A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42C3DEB4-0912-4CC7-98D4-3EBB72BD771A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42C3DEB4-0912-4CC7-98D4-3EBB72BD771A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{040BA067-EDCE-4E65-BDB2-A679FD70EC95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{040BA067-EDCE-4E65-BDB2-A679FD70EC95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{040BA067-EDCE-4E65-BDB2-A679FD70EC95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{040BA067-EDCE-4E65-BDB2-A679FD70EC95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

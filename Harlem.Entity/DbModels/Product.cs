@@ -11,7 +11,9 @@ namespace Harlem.Entity.DbModels
         public int StockPiece { get; set; }
         public Enums.StockType StockType { get; set; }
         public decimal Price { get; set; }
-        public string CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
+        public string ProductDetail { get; set; }
         public virtual Category Category { get; set;}
+        
     }
 }

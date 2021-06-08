@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Harlem.Web
 {
     public class Startup
@@ -28,9 +29,12 @@ namespace Harlem.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddMvc();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<ICategoryDAL, CategoryDAL>();
             services.AddScoped<ICategoryService, CategoryMenager>();
+            services.AddScoped<IProductDAL, ProductDAL>();
+            services.AddScoped<IProductService, ProductMenager>();
 
         }
 
@@ -44,6 +48,9 @@ namespace Harlem.Web
                 {
                     client.Database.EnsureDeleted();
                     client.Database.EnsureCreated();
+                    HarlemDBInitilazier.SeedData(client);
+                    app.UseBrowserLink();
+
                 }
             }
             else
@@ -52,6 +59,7 @@ namespace Harlem.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

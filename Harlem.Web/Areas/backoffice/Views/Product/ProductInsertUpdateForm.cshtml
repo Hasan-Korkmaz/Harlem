@@ -1,0 +1,298 @@
+﻿@model Harlem.Entity.DbModels.Category
+@{
+    Layout = null;
+}
+@if (ViewBag.ViewActionType == Harlem.Core.Tools.Enums.ViewStatus.Insert)
+{
+    <div class="card-body">
+        <form class="form-horizontal" id="postFrom">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="Name " class="col-sm-4 col-form-label content-right">Ürün İsimi:</label>
+                    <div class="col-sm-8">
+                        <input name="Name" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="CategoryId" class="col-sm-4 col-form-label content-right">Kategori :</label>
+                    <div class="col-sm-8">
+                        <select id="CategoryId" name="CategoryId" class="form-control input-lg" style="width:100%">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="StockType" class="col-sm-4 col-form-label content-right">Birim Tipi :</label>
+                    <div class="col-sm-8">
+                        <select id="StockType" name="StockType" class="form-control input-lg" style="width:100%">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="StockPiece" class="col-sm-4 col-form-label content-right">Stok Adeti :</label>
+                    <div class="col-sm-8 input-group">
+                        <input name="StockPiece" type="number" class="form-control">
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fas fa-dolly"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Price" class="col-sm-4 col-form-label content-right">Birim Fiyatı :</label>
+                    <div class="col-sm-8 input-group">
+                        <input name="Price" type="number" step="0,01" class="form-control" value="0.00">
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fas fa-lira-sign"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="ProductDetail" class="col-sm-4 col-form-label content-right">Açıklama :</label>
+                    <div class="col-sm-8">
+                        <textarea name="ProductDetail" class="form-control" type="text" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label content-right">Durum :</label>
+                    <div class="col-sm-8 d-flex align-items-center">
+                        <div class="icheck-success d-inline">
+                            <input type="radio" id="checkboxSuccess2" data-value-type="boolean" name="isActive" value=true checked>
+                            <label for="checkboxSuccess2">
+                                Aktif
+                            </label>
+                        </div>
+                        <div class="icheck-danger d-inline ml-3">
+                            <input type="radio" id="checkboxDanger3" data-value-type="boolean" name="isActivee" value=false>
+                            <label for="checkboxDanger3">
+                                Pasif
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4 col-form-label content-right"></div>
+                    <div class="col-sm-8">
+                        <div class="btn-group w-100">
+                            <span class="btn btn-success col fileinput-button" onclick="NewImage()">
+                                <i class="fas fa-plus"></i>
+                                <span>Yeni Dosya</span>
+                            </span>
+                            <div class="btn btn-primary col start">
+                                <i class="fas fa-upload"></i>
+                                <span>Yükle</span>
+                            </div>
+                            <div class="btn btn-warning col cancel">
+                                <i class="fas fa-times-circle"></i>
+                                <span>Hepsini İptal ET</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label content-right content-vertical-center">Resimler :</label>
+                    <div id="image-container"  img-id="0" class="image-container col-sm-8 danger border border-light elevation-1 rounded-bottom mt-1" style="min-height:200px">
+                      
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label content-right"></label>
+                    <div class="col-sm-8 d-flex align-items-center">
+                        <div type="button" class="btn btn-block btn-primary " onclick="InsertOrUpdate('#postFrom')"><i class="fas fa-save ml-2"></i> Kaydet</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+}
+else
+{
+    <div class="card-body">
+        <form class="form-horizontal" id="postFrom">
+            <div class="card-body">
+                <div class="form-group row">
+                    <input hidden name="Id" value="@Model.Id" />
+                    <label for="DisplayName " class="col-sm-4 col-form-label content-right">Görünen İsim:</label>
+                    <div class="col-sm-8">
+                        <input name="DisplayName" class="form-control" value="@Model.DisplayName" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Name" class="col-sm-4 col-form-label content-right">İç İsim :</label>
+                    <div class="col-sm-8">
+                        <input name="Name" class="form-control" value="@Model.Name" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Description" class="col-sm-4 col-form-label content-right">Açıklama :</label>
+                    <div class="col-sm-8">
+                        <textarea name="Description" class="form-control" type="text" rows="5">@Model.Description</textarea>
+                    </div>
+                </div>
+                @if (Model.isActive == true)
+                {
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label content-right">Durum :</label>
+                        <div class="col-sm-8 d-flex align-items-center">
+                            <div class="icheck-success d-inline">
+                                <input type="radio" id="checkboxSuccess2" data-value-type="boolean" name="isActive" value=true checked>
+                                <label for="checkboxSuccess2">
+                                    Aktif
+                                </label>
+                            </div>
+                            <div class="icheck-danger d-inline ml-3">
+                                <input type="radio" id="checkboxDanger3" data-value-type="boolean" name="isActive" value=false>
+                                <label for="checkboxDanger3">
+                                    Pasif
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label content-right">Durum :</label>
+                        <div class="col-sm-8 d-flex align-items-center">
+                            <div class="icheck-success d-inline">
+                                <input type="radio" id="checkboxSuccess2" data-value-type="boolean" name="isActive" value=true>
+                                <label for="checkboxSuccess2">
+                                    Aktif
+                                </label>
+                            </div>
+                            <div class="icheck-danger d-inline ml-3">
+                                <input type="radio" id="checkboxDanger3" data-value-type="boolean" name="isActive" value=false checked>
+                                <label for="checkboxDanger3">
+                                    Pasif
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label content-right"></label>
+                    <div class="col-sm-8 d-flex align-items-center">
+                        <div type="button" class="btn btn-block btn-primary " onclick="InsertOrUpdate('#postFrom')"><i class="fas fa-save ml-2"></i> Kaydet</div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+}
+<script>
+    $(function () {
+        SelectInput('#CategoryId', "/backoffice/General/GetCategories", "GET");
+        SelectInput('#StockType', "/backoffice/General/GetStockTypes", "GET");
+
+    })
+    var InsertOrUpdateValue = "@ViewBag.ViewActionType"
+    function InsertOrUpdate(form) {
+
+        var postDataObject = $(form).serialize();
+        console.log(postDataObject);
+        if (InsertOrUpdateValue == "Insert") {
+            $.ajax({
+                url: "/backoffice/Product/Add",
+                 type: "POST",
+                 data: postDataObject,
+                 cache: false,
+                 success: function (json) {
+                     if (json.status === true) {
+                         toastr["success"](json.message, "Başarılı")
+                         table.ajax.reload();
+                     }
+                     else if (json.status === false) {
+                         toastr["error"](json.message, "İç sunucu hatası.")
+                     }
+                     return json.data;
+                 },
+                 error: function (xhr, ajaxOptions, thrownError) {
+                     toastr["error"]("Sunucuya Erişim Sağlanamadı.", "İletişim Hatası !")
+                 }
+             });
+         }
+         else {
+            $.ajax({
+
+                url: "/backoffice/Product/Update",
+                 type: "POST",
+                 data: postDataObject,
+                 cache: false,
+                 success: function (json) {
+                     if (json.status === true) {
+                         toastr["success"](json.message, "Başarılı")
+                         table.ajax.reload();
+                     }
+                     else if (json.status === false) {
+                         toastr["error"](json.message, "İç sunucu hatası.")
+                     }
+                     return json.data;
+                     $(location).html(response);
+                 },
+                 error: function (xhr, ajaxOptions, thrownError) {
+                     toastr["error"]("Sunucuya Erişim Sağlanamadı.", "İletişim Hatası !")
+                 }
+             });
+         }
+         insertOrUpdateModal.modal("toggle");
+    }
+</script>
+<!--Resim İşlemleri-->
+<script>
+    var ImageId = 0;
+    var ImgContainer = $('#image-container');
+    function NewImage() {
+
+        var newImageItem = '<div class="image-item" img-id="' + ImageId + '">' +
+            '<div  class="image-item-container">' +
+            '<img class="image-item-container-img">' +
+            '<input class="img-preview-tracker  d-none" type="file" id="ImgInp' + ImageId + '" name="SliderImages[' + ImageId + '].Image" form="postForm"/>' +
+            '<div class="d-flex align-items-center"><div style="width:40px">Sıra : </div><input class="img-order" style="margin-left:10px;width:70px;height:22px" type="number" name="SliderImages[' + ImageId + '].Order" form="postForm"></div>' +
+            '<div class="d-flex align-items-center"><div style="width:40px">ALT : </div><input class="img-alt" style="margin-left:10px;width:70px;height:22px" type="text" name="SliderImages[' + ImageId + '].AltValue" form="postForm"></div>' +
+            '<label for="ImgInp' + ImageId + '" class="img-label btn btn-block btn-primary btn-sm m-0">Resim Yükle</label>' +
+            '<div class="image-item-close" onclick="DeleteImage(this)">X</div>' +
+            '</div>' +
+            '</div>';
+        ImageId++;
+        ImgContainer.append(newImageItem);
+
+    }
+    function DeleteImage(element) {
+        $(element).parents('.image-item').remove();
+        var ImagecontainerChild = $('#image-container').children();
+        console.log(ImagecontainerChild.length);
+        ImageId = 0;
+        ImagecontainerChild.each(function (index, element) {
+            $(element).attr('img-id', ImageId);
+            $(element).find('.img-preview-tracker').attr('id', "ImgInp" + ImageId);
+            $(element).find('.img-preview-tracker').attr('name', "SliderImages[" + ImageId + "].Image");
+            $(element).find('.img-order').attr('name', "SliderImages[" + ImageId + "].Order");
+            $(element).find('.img-label').attr('for', "ImgInp" + ImageId);
+            ImageId++;
+        });
+
+    }
+    function ImagePreview(input) {
+        console.log("İnputtt");
+        console.log("İnputttVALLL");
+        console.log($(input).val())
+        if (input.value.length == 0) {
+            $(img).attr('src', "");
+        }
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            var img = $(input).siblings('img');
+            console.log(img);
+            reader.onload = function (e) {
+                $(img).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

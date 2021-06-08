@@ -22,6 +22,7 @@ namespace Harlem.BLL.Concrete
                     entity.Id = Guid.NewGuid();
                 if (entity.InsertDateTime == DateTime.MinValue)
                     entity.InsertDateTime = DateTime.Now;
+                entity.isDelete = false;
 
                 result.Entity = _dataProvider.Add(entity);
                 result.Status = Enums.BLLResultType.Success;
@@ -43,8 +44,7 @@ namespace Harlem.BLL.Concrete
             var result = new Result<TEntity>();
             try
             {
-                if (entity.Id == Guid.Empty)
-                    entity.Id = Guid.NewGuid();
+               
                     entity.UpdateDateTime = DateTime.Now;
                 result.Entity = _dataProvider.Update(entity);
                 result.Status = Enums.BLLResultType.Success;
@@ -147,17 +147,24 @@ namespace Harlem.BLL.Concrete
             try
             {
                 result.Entity = _dataProvider.GetAll(condition);
-                if (result.Entity != null)
+          
+                 if (result.Entity.Count>0)
                 {
                     result.Status = Enums.BLLResultType.Success;
                     //MagicStringler kaldırılacak.
-                    result.Message = " Eşleşen"+result.Entity.Count +"  kayıt görüntüleniyor.";
+                    result.Message = " Eşleşen "+result.Entity.Count +"  kayıt görüntüleniyor.";
+                }
+                else if (result.Entity.Count==0)
+                {
+                    result.Status = Enums.BLLResultType.Empty;
+                    //MagicStringler kaldırılacak.
+                    result.Message = " Eşleşen kayıt bulunamadı.";
                 }
                 else
                 {
                     result.Status = Enums.BLLResultType.Empty;
                     //MagicStringler kaldırılacak.
-                    result.Message = "Eşleşen kayıt bulunamadı.";
+                    result.Message = "Arama yapılırken bir hata oluştu.";
                 }
 
             }
