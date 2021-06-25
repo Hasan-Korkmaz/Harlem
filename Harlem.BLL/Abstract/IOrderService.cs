@@ -3,7 +3,7 @@ using Harlem.Entity.DbModels;
 
 namespace Harlem.BLL.Abstract
 {
-    public interface IProductImageService : IDataService<ProductImage>
+    public interface IOrderService : IDataService<Order>
     {
 
     }

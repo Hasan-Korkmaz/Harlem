@@ -6,15 +6,13 @@ using Harlem.Entity.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
-using System.Linq;
 
 
 namespace Harlem.BLL.Concrete.Services
 {
-   public class ProductMenager: TemplateDataService<Product, IProductDAL>, IProductService
+    public class ProductManager: TemplateDataService<Product, IProductDAL>, IProductService
     {
-        public ProductMenager(IProductDAL productDAL)
+        public ProductManager(IProductDAL productDAL)
         {
             this._dataProvider = productDAL;
         }

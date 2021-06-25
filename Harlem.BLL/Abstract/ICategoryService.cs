@@ -1,11 +1,10 @@
-﻿using Harlem.Entity.DbModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Harlem.BLL.Abstract.Template;
+using Harlem.Entity.DbModels;
 
 namespace Harlem.BLL.Abstract
 {
-   public interface ICategoryService:IDataService<Category>
+    public interface ICategoryService : IDataService<Category>
     {
+      
     }
 }

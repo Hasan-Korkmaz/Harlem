@@ -3,9 +3,8 @@ using Harlem.Entity.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
-namespace Harlem.BLL.Abstract
+namespace Harlem.BLL.Abstract.Template
 {
    public interface IDataService<TEntity> where TEntity : BaseEntity
     {
