@@ -20,8 +20,8 @@ namespace Harlem.Web.Areas.backoffice.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.ActiveSubMenu = "category";
-            ViewBag.ActiveTopMenu = "defination";
+            ViewBag.ActiveMenu.ActiveSubMenu = "category";
+            ViewBag.ActiveMenu.ActiveTopMenu = "defination";
             return View();
         }
         public IActionResult Add()

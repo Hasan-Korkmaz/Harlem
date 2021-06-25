@@ -2,9 +2,12 @@
 using Harlem.Core.Tools;
 using Harlem.Entity.DbModels;
 using Harlem.Entity.DTO;
+using Harlem.Entity.FrontEndTypes;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,14 +18,18 @@ namespace Harlem.Web.Areas.backoffice.Controllers
     public class ProductController : Controller
     {
         IProductService productService;
-        public ProductController(IProductService productService)
+        IProductImageService productImageService;
+        IWebHostEnvironment environment;
+        public ProductController(IProductService productService, IProductImageService productImageService, IWebHostEnvironment environment)
         {
             this.productService = productService;
+            this.environment = environment;
+            this.productImageService = productImageService;
         }
         public IActionResult Index()
         {
-            ViewBag.ActiveSubMenu = "product";
-            ViewBag.ActiveTopMenu = "defination";
+            ViewBag.ActiveMenu = new ActiveMenu { ActiveSubMenu = "product", ActiveTopMenu = "defination" };
+
             return View();
         }
         public IActionResult Add()
@@ -34,27 +41,115 @@ namespace Harlem.Web.Areas.backoffice.Controllers
         {
             ViewBag.ViewActionType = Enums.ViewStatus.Update;
             var model = productService.Get(x => x.Id == id);
-            if (model.Status != Enums.BLLResultType.Success)
+            if (productImageService.GetAll(x => x.ProductId == id).Status==Enums.BLLResultType.Success)
             {
-
+                model.Entity.ProductImages = productImageService.GetAll(x => x.ProductId == id).Entity;
             }
-            else
-            {
 
-            }
-            return  View("CategoryInsertUpdateForm", model.Entity);
+            return View("ProductInsertUpdateForm", model.Entity);
         }
 
         [HttpPost]
-        public ApiResponse<Product> Add( Product product)
+        public ApiResponse<Product> Add(Product product)
         {
+            if (product.Id == Guid.Empty)
+                product.Id = Guid.NewGuid();
+            if (product.ProductImages!=null && product.ProductImages.Where(x=> x.Image!=null).Count()>0)
+            {
+                foreach (var item in product.ProductImages)
+                {
+                    var physicalFile = item.Image.WriteFile(environment.WebRootPath + "\\Images\\Product\\" + product.Id);
+                    if (physicalFile.FileName != null)
+                    {
+                        if (item.Id == Guid.Empty)
+                            item.Id = Guid.NewGuid();
+                        item.PhysicalPath = physicalFile.PhsicalPath;
+                        item.PublicURL = "\\Images\\Product\\" + product.Id + "\\" + physicalFile.FileName;
+                        item.ProductId = product.Id;
+                        item.InsertDateTime = DateTime.Now;
+                        item.PhysicalName = physicalFile.FileName;
+                        item.isActive = true;
+                    }
+                }
+            }   
+            
             var resp = productService.Add(product);
+            foreach (var item in product.ProductImages)
+            {
+                productImageService.Add(item);
+            }
             return new ApiResponse<Product>() { Data = null, Message = resp.Message, Status = resp.Status == Enums.BLLResultType.Success ? true : false };
         }
         [HttpPost]
         public ApiResponse<Product> Update(Product product)
         {
+            var productImages = productImageService.GetAll(x => x.ProductId == product.Id);
+            var newProductImages = new List<ProductImage>();
+            var deleteProductImages = new List<ProductImage>();
+            if (product.ProductImages != null && product.ProductImages.Where(x => x.Image != null).Count() > 0)
+            {
+                foreach (var item in product.ProductImages)
+                {
+                    //Yeni Eklenen Resimler
+                    if (item.Id == Guid.Empty)
+                    {
+                        var physicalFile = item.Image.WriteFile(environment.WebRootPath + "\\Images\\Product\\" + product.Id);
+                        if (physicalFile.FileName != null)
+                        {
+                            item.PhysicalPath = physicalFile.PhsicalPath;
+                            item.PublicURL = "\\Images\\Product\\" + product.Id + "\\" + physicalFile.FileName;
+                            item.ProductId = product.Id;
+                            item.InsertDateTime = DateTime.Now;
+                            item.PhysicalName = physicalFile.FileName;
+                            item.isActive = true;
+                            item.Id = Guid.NewGuid();
+                        }
+                        newProductImages.Add(item);
+                    }
+                    //Değiştirilen Resimler
+                    else if (item.Id != Guid.Empty && item.Image != null)
+                    {
+                        var physicalFile = item.Image.WriteFile(environment.WebRootPath + "\\Images\\Product\\" + product.Id);
+                        if (physicalFile.FileName != null)
+                        {
+                            item.PhysicalPath = physicalFile.PhsicalPath;
+                            item.PublicURL = "\\Images\\Product\\" + product.Id + "\\" + physicalFile.FileName;
+                            item.ProductId = product.Id;
+                            item.InsertDateTime = DateTime.Now;
+                            item.PhysicalName = physicalFile.FileName;
+                            item.isActive = true;
+                            item.Id = Guid.NewGuid();
+                        }
+                        productImageService.Update(item);
+                    }
+                }
+
+                foreach (var item in product.ProductImages)
+                {
+                    if (item.isDelete)
+                    {
+                       
+                            productImageService.DeleteExpression(x => x.Id == item.Id);
+                        
+                    }
+                }
+            }
             var resp = productService.Update(product);
+            foreach (var item in newProductImages)
+            {
+                productImageService.Add(item);
+            }
+            foreach (var item in product.ProductImages)
+            {
+                if (item.isDelete)
+                {
+                    productImageService.DeleteExpression(x => x.Id == item.Id);
+                }
+            }
+
+
+            resp.Entity.ProductImages = null;
+            
             return new ApiResponse<Product>() { Data = resp.Entity, Message = resp.Message, Status = resp.Status == Enums.BLLResultType.Success ? true : false };
         }
         [HttpPut]

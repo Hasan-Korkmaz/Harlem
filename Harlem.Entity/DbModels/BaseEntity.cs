@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Harlem.Entity.DbModels
 {
-   public class BaseEntity
+    [Serializable]
+
+    public class BaseEntity
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public bool isActive { get; set; } 
         public bool isDelete { get; set; } 

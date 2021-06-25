@@ -6,11 +6,13 @@ using Harlem.DAL.Concrete.DataAccesLayers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,9 +34,13 @@ namespace Harlem.Web
             services.AddMvc();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<ICategoryDAL, CategoryDAL>();
-            services.AddScoped<ICategoryService, CategoryMenager>();
             services.AddScoped<IProductDAL, ProductDAL>();
+            services.AddScoped<IProductImageDAL, ProductImageDAL>();
+
+            services.AddScoped<ICategoryService, CategoryMenager>();
             services.AddScoped<IProductService, ProductMenager>();
+
+            services.AddScoped<IProductImageService, ProductImageMenager>();
 
         }
 
@@ -59,6 +65,16 @@ namespace Harlem.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            var supportedCultures = new[]{new CultureInfo("en-US"),new CultureInfo("es"),};
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("tr-TR"),
+                // Formatting numbers, dates, etc.
+                SupportedCultures = supportedCultures,
+                // Localized UI strings.
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -66,7 +82,7 @@ namespace Harlem.Web
             app.UseRouting();
 
             app.UseAuthorization();
-         
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

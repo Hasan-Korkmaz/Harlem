@@ -11,5 +11,7 @@ namespace Harlem.BLL.Abstract
    public interface IProductService: IDataService<Product>
     {
         Result<List<ProductDTO>> GetAllDTO(Expression<Func<Product, bool>> condition = null);
+        public Result<List<Product>> GetWithProductImages(Expression<Func<Product, bool>> condition = null);
+
     }
 }

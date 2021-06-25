@@ -23,9 +23,9 @@ namespace Harlem.Web.Areas.backoffice.Controllers
         }
 
         [HttpGet]
-        public ApiResponse<List<Select2>> GetCategories(string key)
+        public ApiResponse<List<Select2>> GetCategories(string key,Guid Id )
         {
-           var bllResult= this.CategoryService.GetAll(x => x.isActive == true && (string.IsNullOrEmpty(key) ||  x.DisplayName.Contains(key)));
+           var bllResult= this.CategoryService.GetAll(x => x.isActive == true && (string.IsNullOrEmpty(key) ||  x.DisplayName.Contains(key)) && (Id==Guid.Empty || x.Id==Id));
             if (bllResult.Status==Enums.BLLResultType.Success)
             {
               var evolvedData=  bllResult.Entity.Select(x => new Select2() { Id = x.Id, Text = x.DisplayName }).ToList();

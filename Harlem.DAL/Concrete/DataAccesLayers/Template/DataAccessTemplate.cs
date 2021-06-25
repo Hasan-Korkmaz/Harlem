@@ -15,7 +15,6 @@ namespace Harlem.DAL.Concrete.DataAccesLayers.Template
         {
             using (TRepository Context = new TRepository())
             {
-                Context.Attach(entity);
                 var state = Context.Entry(entity);
                 state.State = EntityState.Added;
                 Context.SaveChanges();
@@ -26,6 +25,7 @@ namespace Harlem.DAL.Concrete.DataAccesLayers.Template
         {
             using (TRepository Context = new TRepository())
             {
+                Context.Attach(entity);
                 Context.Entry(entity).State = EntityState.Modified;
                  Context.SaveChanges();
                 return entity;
@@ -41,7 +41,7 @@ namespace Harlem.DAL.Concrete.DataAccesLayers.Template
                 return true;
             }
         }
-        public TEntity Get(Expression<Func<TEntity, bool>> condition = null)
+        public TEntity Get( Expression<Func<TEntity, bool>> condition = null)
         {
             using (TRepository Context = new TRepository())
             {

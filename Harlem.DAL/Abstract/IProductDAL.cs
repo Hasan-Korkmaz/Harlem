@@ -10,5 +10,6 @@ namespace Harlem.DAL.Abstract
     public interface IProductDAL : Template.IDataAccesTemplate<Product>
     {
         List<ProductDTO> GetAllDTO(Expression<Func<Product, bool>> condition = null);
+        public  List<Product> GetWithProductImages(Expression<Func<Product, bool>> condition = null);
     }
 }

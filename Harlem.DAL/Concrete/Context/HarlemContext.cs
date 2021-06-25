@@ -19,5 +19,6 @@ namespace Harlem.DAL.Concrete.Context
         }
         public DbSet<Category> Categories{ get; set; }
         public DbSet<Product> Products{ get; set; }
+        public DbSet<ProductImage> ProductImagess{ get; set; }
     }
 }

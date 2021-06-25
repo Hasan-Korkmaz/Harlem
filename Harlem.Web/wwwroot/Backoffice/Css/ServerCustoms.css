@@ -40,8 +40,8 @@
 
 /*Resim İşlemleri*/
 .image-item {
-    width: 120px;
-    height: 200px;
+    width: 180px;
+    height: 300px;
     margin: .50rem;
     position: relative;
 }
@@ -55,7 +55,7 @@
 
 .image-item-container-img {
     width: 100%;
-    height: 120px;
+    height: 160px;
 }
 
 .image-item-close {

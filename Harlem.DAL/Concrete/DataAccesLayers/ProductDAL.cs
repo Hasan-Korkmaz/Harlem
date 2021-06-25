@@ -4,6 +4,7 @@ using Harlem.Entity.DbModels;
 using Harlem.Entity.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -33,5 +34,17 @@ namespace Harlem.DAL.Concrete.DataAccesLayers
                      }).ToList();
             }
         }
+        public List<Product> GetWithProductImages(Expression<Func<Product, bool>> condition = null)
+        {
+            using (Context.HarlemContext context = new Context.HarlemContext())
+            {
+                return context.Products
+                     .Where(entity => entity.isDelete == false)
+                     .Where(condition ?? (entity => true))
+                     .Include(x => x.ProductImages).ToList();
+                     
+            }
+        }
+
     }
 }

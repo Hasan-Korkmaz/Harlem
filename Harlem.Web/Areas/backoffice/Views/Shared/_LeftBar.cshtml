@@ -1,7 +1,8 @@
-﻿<script>
+﻿
+<script>
     //Aktif Menüyü İşaretlemek İçin Kullanılan C# Js Hibriti
-    var topMenu ="@ViewBag.ActiveTopMenu";
-    var subMenu ="@ViewBag.ActiveSubMenu";
+    var topMenu ="@ViewBag.ActiveMenu.ActiveTopMenu";
+    var subMenu ="@ViewBag.ActiveMenu.ActiveSubMenu";
 </script>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -38,7 +39,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
                 <li class="nav-item defination">
                     <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -60,22 +61,30 @@
                                 <p>Ürün</p>
                             </a>
                         </li>
+                    </ul>
+                </li>
+                <li class="nav-item galery">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Galeri
+                            <i class="fas fa-photo-video"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview images">
                         <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
+                            <a href="/backoffice/Image/Index" class="nav-link">
+                                <i class="far fa-images"></i>
+                                <p>Resim</p>
+                            </a>
+                        </li>
+                        <li class="nav-item videos">
+                            <a href="/backoffice/Video/Index" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v3</p>
+                                <p>Video</p>
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="pages/widgets.html" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Widgets
-                            <span class="right badge badge-danger">New</span>
-                        </p>
-                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">

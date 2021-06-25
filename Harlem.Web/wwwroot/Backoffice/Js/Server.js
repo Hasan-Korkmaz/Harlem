@@ -3,7 +3,7 @@ $(document).on('change', '.img-preview-tracker', function () {
     console.log("ChangeVal")
     console.log(this);
     ImagePreview(this);
-}) 
+})
 Number.prototype.toTurkish = function () {
     return this.toLocaleString("tr-TR", { 'minimumFractionDigits': 2, 'maximumFractionDigits': 2 });
 }
@@ -93,27 +93,58 @@ function LoadPage(url, type, location, succesFunc, data) {
     });
 }
 function SelectInput(Input, url, type) {
-    $(Input).select2({
-        theme: "bootstrap4",
-        language:"tr",
-        ajax: {
+    if ($(Input).attr('selected-val') != undefined) {
+        $.ajax({
             url: url,
             type: type,
-            data: function (params) {
-                var query = {
-                    key: params.term,
-                    // Id: $(Input).attr('selected-val')
-                }
-                // Query parameters will be ?search=[term]&type=public
-                return query;
-            },
-            processResults: function (data) {
-                console.log(data.data);
-                
-                return {
-                    results: data.data
-                };
+            data: { key: '', id: $(Input).attr('selected-val') },
+            success: function (response) {
+                $(Input).append('<option value="' + response.data[0].id + '">' + response.data[0].text + '</option>');
+                $(Input).select2({
+                    theme: "bootstrap4",
+                    language: "tr",
+                    ajax: {
+                        url: url,
+                        type: type,
+                        data: function (params) {
+                            var query = {
+                                key: params.term,
+                            }
+                            // Query parameters will be ?search=[term]&type=public
+                            return query;
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: data.data
+                            };
+                        }
+                    }
+                });
             }
-        }
-    });
+        })
+    }
+    else {
+        $(Input).select2({
+            theme: "bootstrap4",
+            language: "tr",
+            ajax: {
+                url: url,
+                type: type,
+                data: function (params) {
+                    var query = {
+                        key: params.term,
+                    }
+                    // Query parameters will be ?search=[term]&type=public
+                    return query;
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.data
+                    };
+                }
+            }
+        });
+    }
+
+
 }
