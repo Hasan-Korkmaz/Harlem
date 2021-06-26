@@ -1,48 +1,356 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
+    <title>Harlem Alışveriş</title>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Harlem.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.3/css/dx.common.css" />
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.3/css/dx.light.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body >
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Harlem.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+<body style="background: #eee;">
+    <header class="shadow-bottom " style="background-color: white;">
+        <div class="w-100 d-flex justify-content-center align-items-center flex-column ">
+            <div class="col-8 d-center " style="height: 40px;background-color: black;color: white;">
+                <a href="#" style="padding: 5px 10px 5px 10px; margin: 5px 10px 5px 10px; font-size: 14px; color: white;">
+                    Süper
+                    Fiyatlar
+                </a>
+                <a href="#" style="padding: 5px 10px 5px 10px; margin: 5px 10px 5px 10px; font-size: 14px; color: white;">
+                    Süper
+                    Fiyatlar
+                </a>
+                <a href="#" style="padding: 5px 10px 5px 10px; margin: 5px 10px 5px 10px; font-size: 14px; color: white;">
+                    Süper
+                    Fiyatlar
+                </a>
+                <a href="#" style="padding: 5px 10px 5px 10px; margin: 5px 10px 5px 10px; font-size: 14px; color: white;">
+                    Süper
+                    Fiyatlar
+                </a>
+                <a href="#" style="padding: 5px 10px 5px 10px; margin: 5px 10px 5px 10px; font-size: 14px; color: white;">
+                    Süper
+                    Fiyatlar
+                </a>
+            </div>
+
+            <div class="col-8 justify-content-between d-flex" style="height: 120px;">
+                <div class="d-center col-2">
+                    <img src="~/Images/Logo/logo.png" height="100">
+                </div>
+                <div style=" font-size: 30px;" class="d-center h-100 col-6">
+                    <form class="w-100" style="position: relative;" action="\Home\ara" method="GET">
+                        <input src="ara" class="w-100 ara-input   " placeholder="Aramak istediğiniz bir şey mi var ?">
+                        <button style="position: absolute;right: 3px;top: 0; background: transparent;" class="ara-btn">
+                            <i class="fas fa-search color-main"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class=" d-flex justify-content-center h-100  col-3">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <a onclick="$('#LoginRegisterModal').modal();" class="login-btn login-or-register-btn">
+                            <span>
+                                <span>
+                                    <span>Kaydol</span>
+                                </span>
+                            </span>
+                        </a>
+                        <span class="m-1" style="font-size: 2rem;"> / </span>
+                        <a onclick="$('#LoginRegisterModal').modal();" class="register-btn  login-or-register-btn">
+                            <span>
+                                <span>
+                                    <span>Oturum Aç</span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="ml-5 basket-container d-flex align-items-center justify-content-center">
+                        <a href="/Account/Basket">
+                            <i class="fas fa-shopping-basket"></i>
+                        </a>
+                    </div>
+
+
+
                 </div>
             </div>
-        </nav>
+            <div class="col-8 d-flex justify-content-around mb-3">
+                <a href="#" class=" category-tag">Elektronik</a>
+                <div class="category-vr"></div>
+                <a href="#" class=" category-tag">Moda</a>
+                <div class="category-vr"></div>
+                <a href="#" class=" category-tag">Ev Bahçe Ofis Market</a>
+                <div class="category-vr"></div>
+                <a href="#" class=" category-tag">Kozmetik</a>
+                <div class="category-vr"></div>
+                <a href="#" class="category-tag">Süpermarket</a>
+                <div class="category-vr"></div>
+                <a href="#" class=" category-tag">Kitap & Müzik</a>
+            </div>
+        </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main class="pb-4 pt-4  ">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Harlem.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        @RenderBody()
+    </main>
+    <footer class="w-100  d-flex justify-content-center shadow-top   p-4"
+            style="min-height: 300px; background-color: white;">
+        <div class="col-8">
+            <div class="w-100 d-flex justify-content-around">
+                <div class="col-4  ">
+                    <div class="footer-list-title">HARLEM</div>
+                    <div class="footer-hr">
+                        <hr>
+                    </div>
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="footer-list-item">Hakkımızda</div>
+                        <div class="footer-list-item">Sıfır Risk Sistemi</div>
+                        <div class="footer-list-item">Site Haritası</div>
+                        <div class="footer-list-item">İletişim</div>
+                        <div class="footer-list-item">Kariyer</div>
+                        <div class="footer-list-item">Müşteri Hizmetleri</div>
+                    </div>
+                </div>
+                <div class="col-4  ">
+                    <div class="footer-list-title">İŞLEM REHBERİ</div>
+                    <div class="footer-hr">
+                        <hr>
+                    </div>
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="footer-list-item">Nasıl Ürün Alırım ?</div>
+                        <div class="footer-list-item">Nasıl İade Yapılır ?</div>
+                        <div class="footer-list-item">Güvenilirlik </div>
+                        <div class="footer-list-item">Ödeme Seçenekleri</div>
+                        <div class="footer-list-item">Ekspres Para İadesi</div>
+                        <div class="footer-list-item">Müşteri Bilgi Merkezi</div>
+                    </div>
+                </div>
+                <div class="col-4  ">
+                    <div class="footer-list-title">POPÜLER SAYFALAR</div>
+                    <div class="footer-hr">
+                        <hr>
+                    </div>
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="footer-list-item">Telefon</div>
+                        <div class="footer-list-item">Maske</div>
+                        <div class="footer-list-item">Oyuncak</div>
+                        <div class="footer-list-item">Masa</div>
+                        <div class="footer-list-item">Bebek Bezi</div>
+                        <div class="footer-list-item">Kitap</div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class=" d-flex justify-content-between">
+                <div class="col-5  d-flex justify-content-between" style="height: 60px;">
+                    <div class="d-center " style="font-size: 2rem;">Bizi Takip Et</div>
+                    <div class="d-flex align-items-center">
+                        <a href="#"><i class="footer-social-icon fab fa-facebook"></i></a>
+                        <a href="#"><i class="footer-social-icon fab fa-twitter-square"></i></a>
+                        <a href="#"><i class="footer-social-icon fab fa-instagram-square"></i></a>
+                        <a href="#"><i class="footer-social-icon fab fa-youtube-square"></i></a>
+                        <a href="#"><i class="footer-social-icon fab fa-linkedin"></i></a>
+                        <a href="#"><i class="footer-social-icon fab fa-blogger"></i></a>
+                    </div>
+                </div>
+                <div class="col-5  d-flex justify-content-between" style="height: 60px;">
+                    <div class="d-center " style="font-size: 2rem;">Bizi Keşfet</div>
+                    <div class="d-center" style=" font-size: 4rem; font-family: 'Libre Barcode 39 Text', cursive;">
+                        HARLEM
+                    </div>
+                </div>
+            </div>
+            <hr>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!--Hidden Items-->
+
+    <div class="modal fade loginModal" id="LoginRegisterModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content " style="border-radius: 20px;">
+                <div class="modal-body " style="padding: 0;">
+                    <div class="form-area">
+                        <div class="form-sing">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation">
+                                    <a class="active" href="#login" aria-controls="Log In" role="tab"
+                                       data-toggle="tab">Giriş Yap</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                        Kayıt Ol
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active form-are" id="login">
+                                    <form action="">
+                                        <div class="form-bor">
+                                            <div class="form-input-group">
+                                                <label for="">E-Mail</label>
+                                                <input type="mail" name="mail">
+                                            </div>
+                                            <div class="form-input-group">
+                                                <label for="">Şifre</label>
+                                                <input type="password" name="password">
+                                            </div>
+                                            <div class="form-input-checkbox">
+                                                <input type="checkbox" id="test1" />
+                                                <label for="test1">Oturum açık tut</label>
+                                            </div>
+                                            <div class="form-input-group">
+                                                <button>Giriş Yap</button>
+                                            </div>
+                                        </div><a class="forgot-pass" href="">Şifreni Mi Unuttun ?</a>
+                                    </form>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="profile">
+                                    <form action="">
+                                        <div class="form-bor">
+                                            <div class="form-input-group">
+                                                <label for="">Yeni Kullanıcı</label>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="fst-username" placeholder="İsim">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="lst-username" placeholder="Soyisim">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-input-group">
+                                                <label for="">E-Mail</label>
+                                                <input type="text" name="email" placeholder="E-Mail">
+                                                <input type="text" name="re-email" placeholder="Tekrar Email">
+                                            </div>
+                                            <div class="form-input-group">
+                                                <label for="">Şifre</label>
+                                                <input type="password" name="password" placeholder="Password">
+                                                <input type="password" name="password" placeholder="Confirm Password">
+                                            </div>
+                                            <div class="form-input-group">
+                                                <button>Kayıt Ol</button>
+                                            </div>
+                                        </div>
+                                        <a class="forgot-pass" href="#login" data-toggle="tab">
+                                            Zaten Bir Hesabın Var Mı ?<strong>
+                                                Giriş
+                                                Yap
+                                            </strong>
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="https://cdn3.devexpress.com/jslib/21.1.3/js/dx.all.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 160,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            autoplay: true,
+            keyboard: true,
+        });
+        window.onload = function () {
+            var searchMode = ko.observable("startsWith");
+
+            var viewModel = {
+                treeViewOptions: {
+                    onItemClick: function (e, b, c) {
+                        location.href = "/Home/Category?id=" + e.itemData.id
+                    },
+                    noDataText: "Eşleşen Veri Bulanamadi.",
+                    items: products,
+                    searchEnabled: true,
+                    searchMode: searchMode,
+                    searchEditorOptions: {
+                        placeholder: "Hızlı arama",
+                    },
+                },
+            };
+
+            ko.applyBindings(viewModel);
+        };
+
+        var products = [
+            {
+                id: "1",
+                text: "Elektronik",
+                expanded: true,
+                items: [
+                    {
+                        id: "1_1",
+                        text: "Bilgisayar",
+
+                    }]
+            },
+            {
+                id: "2",
+                text: "Moda",
+                expanded: true,
+                items: [
+                    {
+                        id: "2_1",
+                        text: "Kadın Giyim",
+
+                    }]
+            },
+            {
+                id: "3",
+                text: "Ev Bahçe Ofis Market",
+                expanded: true,
+                items: [
+                    {
+                        id: "3_1",
+                        text: "Bahçe Mobilya",
+
+                    },
+                    {
+                        id: "3_2",
+                        text: "Mutfak",
+
+                    }]
+            },
+
+        ];
+    </script>
 </body>
+
 </html>

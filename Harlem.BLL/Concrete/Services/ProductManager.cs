@@ -7,15 +7,13 @@ using Harlem.Entity.DTO.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
-using System.Linq;
 
 
 namespace Harlem.BLL.Concrete.Services
 {
-   public class ProductMenager: TemplateDataService<Product, IProductDAL>, IProductService
+    public class ProductManager: TemplateDataService<Product, IProductDAL>, IProductService
     {
-        public ProductMenager(IProductDAL productDAL)
+        public ProductManager(IProductDAL productDAL)
         {
             this._dataProvider = productDAL;
         }
@@ -87,7 +85,7 @@ namespace Harlem.BLL.Concrete.Services
         }
         public  Result<List<Product>> GetWithProductImages(Expression<Func<Product, bool>> condition = null)
         {
-            var result = new Result< List < Product >> ();
+            var result = new Result< List <Product>> ();
             try
             {
                 result.Entity = _dataProvider.GetWithProductImages(condition);

@@ -11,7 +11,7 @@ namespace Harlem.Entity.DbModels
 
 
         public AccountUser User { get; set; }
-        public ICollection <Order> Orders { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 
 }
