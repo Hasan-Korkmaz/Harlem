@@ -1,4 +1,6 @@
-﻿using Harlem.Web.Models;
+﻿using Harlem.BLL.Abstract;
+using Harlem.Entity.FrontEndTypes;
+using Harlem.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,13 +15,25 @@ namespace Harlem.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
+        IProductService productService;
+        ICategoryService categoryService;
+        public HomeController(IProductService productService, ICategoryService categoryService)
+        {
+            this.productService = productService;
+            this.categoryService = categoryService;
+        }
         public IActionResult Index()
         {
+            ViewBag.ActiveMenu = new ActiveMenu { ActiveTopMenu = "dashboard" };
+            var products = productService.GetWithProductImages(x => x.isActive == true);
+            var category = categoryService.GetAll(x => x.isActive == true);
+            if (products.Status == Core.Tools.Enums.BLLResultType.Success && category.Status == Core.Tools.Enums.BLLResultType.Success)
+            {
+                ViewBag.Products = products.Entity;
+                ViewBag.Categories = category.Entity;
+            }
+
             return View();
         }
 

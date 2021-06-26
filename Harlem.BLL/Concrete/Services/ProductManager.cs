@@ -83,9 +83,9 @@ namespace Harlem.BLL.Concrete.Services
             }
             return result;
         }
-        public  Result<List<Product>> GetWithProductImages(Expression<Func<Product, bool>> condition = null)
+        public  Result<List<ProductDTO>> GetWithProductImages(Expression<Func<Product, bool>> condition = null)
         {
-            var result = new Result< List <Product>> ();
+            var result = new Result< List <ProductDTO>> ();
             try
             {
                 result.Entity = _dataProvider.GetWithProductImages(condition);

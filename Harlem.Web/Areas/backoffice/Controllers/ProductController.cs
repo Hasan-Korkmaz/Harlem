@@ -66,7 +66,7 @@ namespace Harlem.Web.Areas.backoffice.Controllers
                         if (item.Id == Guid.Empty)
                             item.Id = Guid.NewGuid();
                         item.PhysicalPath = physicalFile.PhsicalPath;
-                        item.PublicURL = "\\Images\\Product\\" + product.Id + "\\" + physicalFile.FileName;
+                        item.PublicURL =  ("\\Images\\Product\\" + product.Id + "\\" + physicalFile.FileName).Replace(@"\","/");
                         item.ProductId = product.Id;
                         item.InsertDateTime = DateTime.Now;
                         item.PhysicalName = physicalFile.FileName;

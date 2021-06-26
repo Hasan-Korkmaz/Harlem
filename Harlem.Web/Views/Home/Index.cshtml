@@ -2,11 +2,11 @@
     <div class="col-8 h-100 shadow rounded-3">
         <div class=" swiper-container mySwiper h-100">
             <div class="swiper-wrapper">
-                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/300)"></div>
-                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/301)"></div>
-                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/302)"></div>
-                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/303)"></div>
-                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/304)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1250/450)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1251/450)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1252/450)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1253/450)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1254/450)"></div>
 
             </div>
             <div class="swiper-button-next color-main"></div>
@@ -27,108 +27,70 @@
         </div>
         <div class=" product-container p-3 d-flex justify-content-between flex-wrap"
              style="width: 75%; min-height: 600px;">
-            <div class="product-card ">
-                <a href="#" class="text-decoration-none">
-                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
-                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/304);"></div>
-                    <div class="p-3 product-card-detail">
-                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
-                        <div class="product-price text-dark">
-                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
+            @foreach (Harlem.Entity.DTO.Catalog.ProductDTO item in ViewBag.Products)
+            {
+                <div class="product-card ">
+                    <a href="href=\Product\Detail?id=@(item.Id)" class="text-decoration-none">
+                        <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
+                        <div class="product-card-img" style='background: url("@(item.ProductImages.FirstOrDefault()!=null? item.ProductImages.OrderBy(x=> x.Order).FirstOrDefault().PublicURL:"" )");'></div>
+                        <div class="p-3 product-card-detail">
+                            <div class="product-title">@item.Name </div>
+                            <div class="product-price text-dark">
+                                Yeni Fiyat : <span class="fw-bold">@item.Price   ₺</span>
+                            </div>
+                            <div class="product-stock text-dark"> Son Kalan : @item.StockPiece  @item.StockType.GetDescription()</div>
                         </div>
-                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
-                    </div>
-                </a>
-                <button type="button" class="btn btn-primary product-add-basket background-color-main"
-                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
-                    Sepete Ekle
-                </button>
-            </div>
-            <div class="product-card ">
-                <a href="#" class="text-decoration-none">
-                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
-                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/300);"></div>
-                    <div class="p-3 product-card-detail">
-                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
-                        <div class="product-price text-dark">
-                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
-                        </div>
-                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
-                    </div>
-                </a>
-                <button type="button" class="btn btn-primary product-add-basket background-color-main"
-                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
-                    Sepete Ekle
-                </button>
-            </div>
-            <div class="product-card ">
-                <a href="#" class="text-decoration-none">
-                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
-                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/301);"></div>
-                    <div class="p-3 product-card-detail">
-                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
-                        <div class="product-price text-dark">
-                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
-                        </div>
-                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
-                    </div>
-                </a>
-                <button type="button" class="btn btn-primary product-add-basket background-color-main"
-                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
-                    Sepete Ekle
-                </button>
-            </div>
-            <div class="product-card ">
-                <a href="#" class="text-decoration-none">
-                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
-                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/302);"></div>
-                    <div class="p-3 product-card-detail">
-                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
-                        <div class="product-price text-dark">
-                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
-                        </div>
-                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
-                    </div>
-                </a>
-                <button type="button" class="btn btn-primary product-add-basket background-color-main"
-                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
-                    Sepete Ekle
-                </button>
-            </div>
-            <div class="product-card ">
-                <a href="#" class="text-decoration-none">
-                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
-                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/303);"></div>
-                    <div class="p-3 product-card-detail">
-                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
-                        <div class="product-price text-dark">
-                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
-                        </div>
-                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
-                    </div>
-                </a>
-                <button type="button" class="btn btn-primary product-add-basket background-color-main"
-                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
-                    Sepete Ekle
-                </button>
-            </div>
-            <div class="product-card ">
-                <a href="#" class="text-decoration-none">
-                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
-                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/304);"></div>
-                    <div class="p-3 product-card-detail">
-                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
-                        <div class="product-price text-dark">
-                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
-                        </div>
-                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
-                    </div>
-                </a>
-                <button type="button" class="btn btn-primary product-add-basket background-color-main"
-                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
-                    Sepete Ekle
-                </button>
-            </div>
+                    </a>
+                    <button type="button" class="btn btn-primary product-add-basket background-color-main"
+                            onclick="href=\Account\AddBasket?id=@(item.Id) ">
+                        Sepete Ekle
+                    </button>
+                </div>
+            }
+
+
         </div>
     </div>
 </div>
+<script>
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 20,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            autoplay: true,
+            keyboard: true,
+        });
+        window.onload = function () {
+            var searchMode = ko.observable("startsWith");
+
+            var viewModel = {
+                treeViewOptions: {
+                    onItemClick: function (e, b, c) {
+                        location.href = "/Home/Category?id=" + e.itemData.id
+                    },
+                    noDataText: "Eşleşen Veri Bulanamadi.",
+                    items: products,
+                    searchEnabled: true,
+                    searchMode: searchMode,
+                    searchEditorOptions: {
+                        placeholder: "Hızlı arama",
+                    },
+                },
+            };
+
+            ko.applyBindings(viewModel);
+        };
+
+        var products = [
+                @foreach (Harlem.Entity.DbModels.Category item in ViewBag.Categories)
+                {
+                    <text> { id: '@(item.Id)', text: '@(item.DisplayName)' }, </text>
+                }
+        ];
+</script>

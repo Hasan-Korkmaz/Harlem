@@ -12,6 +12,7 @@ namespace Harlem.DAL.Concrete.Context
             {
                 optionsBuilder.UseSqlServer(@"Server=.;Database=HarlemDB;Trusted_Connection=True;ConnectRetryCount=0");
             }
+           
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,7 +24,7 @@ namespace Harlem.DAL.Concrete.Context
         }
         public DbSet<Category> Categories{ get; set; }
         public DbSet<Product> Products{ get; set; }
-        public DbSet<ProductImage> ProductImagess{ get; set; }
+        public DbSet<ProductImage> ProductImages{ get; set; }
 
 
         // Account User -> Customer

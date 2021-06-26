@@ -5,7 +5,6 @@ using Harlem.Entity.DTO;
 using Harlem.Entity.DTO.Catalog;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -29,21 +28,34 @@ namespace Harlem.DAL.Concrete.DataAccesLayers
                          Name = x.Name,
                          Price = x.Price,
                          StockPiece = x.StockPiece,
-                         StockType = x.StockType.ToString(),
+                         StockType = x.StockType,
                          ProductDetail = x.ProductDetail,
 
                      }).ToList();
             }
         }
-        public List<Product> GetWithProductImages(Expression<Func<Product, bool>> condition = null)
+        public List<ProductDTO> GetWithProductImages(Expression<Func<Product, bool>> condition = null)
         {
             using (Context.HarlemContext context = new Context.HarlemContext())
             {
-                return context.Products
+
+
+                var product =  context.Products
                      .Where(entity => entity.isDelete == false)
-                     .Where(condition ?? (entity => true))
-                     .Include(x => x.ProductImages).ToList();
-                     
+                     .Where(condition ?? (entity => true)).Select( x=> new ProductDTO() {
+                     Id=x.Id,
+                     Name=x.Name,
+                     Price=x.Price,
+                     StockPiece=x.StockPiece,
+                     CategoryName=x.Category.DisplayName,
+                     StockType=x.StockType,
+                     ProductImages=x.ProductImages.Select(y=> new ProductImageDTO() {Id=y.Id,ImageName=y.ImageName,Order=y.Order,ImageAltValue=y.ImageAltValue,PublicURL=y.PublicURL }).ToList()})
+                     .ToList();
+
+             
+                return product;
+
+
             }
         }
 
