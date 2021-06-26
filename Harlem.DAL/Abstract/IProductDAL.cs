@@ -1,5 +1,6 @@
 ﻿using Harlem.Entity.DbModels;
 using Harlem.Entity.DTO;
+using Harlem.Entity.DTO.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;

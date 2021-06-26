@@ -15,8 +15,6 @@ namespace Harlem.Web.Areas.backoffice.Controllers
         {
             this.userService = userService;
         }
-
-        [Route("/")]
         public IActionResult Index()
         {
             return View();

@@ -36,11 +36,24 @@ namespace Harlem.Web
             services.AddScoped<ICategoryDAL, CategoryDAL>();
             services.AddScoped<IProductDAL, ProductDAL>();
             services.AddScoped<IProductImageDAL, ProductImageDAL>();
+            services.AddScoped<IUserDAL, UserDAL>();
+            services.AddScoped<IAccountUserDAL, AccountUserDAL>();
+            services.AddScoped<IAccountUserAddressDAL, AccountUserAddressDAL>();
+            services.AddScoped<IBasketDAL, BasketDAL>();
+            services.AddScoped<IOrderDAL, OrderDAL>();
+            services.AddScoped<IOrderItemDAL, OrderItemDAL>();
 
             services.AddScoped<ICategoryService,CategoryManager>();
             services.AddScoped<IProductService, ProductManager>();
-
             services.AddScoped<IProductImageService, ProductImageMenager>();
+            services.AddScoped<IUserService, UserManager>();
+            services.AddScoped<IAccountUserService, AccountUserManager>();
+            services.AddScoped<IAccountUserAddressService, AccountUserAddressManager>();
+            services.AddScoped<IBasketService, BasketManager>();
+            services.AddScoped<IBasketItemService, BasketItemManager>();
+            services.AddScoped<IOrderService, OrderManager>();
+            services.AddScoped<IOrderItemService, OrderItemManager>();
+
 
         }
 

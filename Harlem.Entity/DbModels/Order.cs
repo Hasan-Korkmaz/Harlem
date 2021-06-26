@@ -8,19 +8,15 @@ namespace Harlem.Entity.DbModels
     {
         public Guid AddressId { get; set; }
         public Guid AccountUserId { get; set; }
-        
+        public Guid AccountUserAddressId { get; set; }
         public PaymentType PaymentType { get; set; }
-
         public DateTime OrderDate { get; set; }
         public DateTime? DeliveredDate { get; set; }
-
         public decimal TotalPrice { get; set; }
-
         public bool isDelivered { get; set; }
 
         public AccountUserAddress Address { get; set; }
-        public AccountUser User { get; set; }
-
+        public AccountUser AccountUser { get; set; }
         public ICollection<OrderItem> OrderItem { get; set; }
     }
 }
