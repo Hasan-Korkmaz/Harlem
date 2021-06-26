@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Harlem.Entity.DTO
+namespace Harlem.Entity.DTO.Catalog
 {
     public class ProductDTO
     {

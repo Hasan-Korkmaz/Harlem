@@ -36,6 +36,11 @@ namespace Harlem.Core.Tools
 
         }
 
+        public enum PaymentType : ushort
+        {
+
+        }
+
         public static string GetDescription<T>(this T e) where T : IConvertible
         {
             try
