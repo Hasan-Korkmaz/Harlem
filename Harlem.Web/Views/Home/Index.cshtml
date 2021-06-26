@@ -1,9 +1,134 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-    
-}
+﻿<div class="w-100 d-flex justify-content-center mb-4 " style="height: 450px;">
+    <div class="col-8 h-100 shadow rounded-3">
+        <div class=" swiper-container mySwiper h-100">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/300)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/301)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/302)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/303)"></div>
+                <div class="swiper-slide rounded-3" style="background-image: url(https://picsum.photos/1920/304)"></div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+            </div>
+            <div class="swiper-button-next color-main"></div>
+            <div class="swiper-button-prev color-main"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</div>
+<div class="w-100 d-center">
+    <div class="col-8 row d-flex justify-content-between">
+        <div class="shadow rounded" style="width: 22%; min-height: 600px; background-color: white;">
+            <div class="p-2">
+                <div class="mb-2 mt-2">Kategori</div>
+                <div class="dx-viewport demo-container">
+                    <div id="treeview" data-bind="dxTreeView: treeViewOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class=" product-container p-3 d-flex justify-content-between flex-wrap"
+             style="width: 75%; min-height: 600px;">
+            <div class="product-card ">
+                <a href="#" class="text-decoration-none">
+                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
+                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/304);"></div>
+                    <div class="p-3 product-card-detail">
+                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
+                        <div class="product-price text-dark">
+                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
+                        </div>
+                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
+                    </div>
+                </a>
+                <button type="button" class="btn btn-primary product-add-basket background-color-main"
+                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
+                    Sepete Ekle
+                </button>
+            </div>
+            <div class="product-card ">
+                <a href="#" class="text-decoration-none">
+                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
+                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/300);"></div>
+                    <div class="p-3 product-card-detail">
+                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
+                        <div class="product-price text-dark">
+                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
+                        </div>
+                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
+                    </div>
+                </a>
+                <button type="button" class="btn btn-primary product-add-basket background-color-main"
+                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
+                    Sepete Ekle
+                </button>
+            </div>
+            <div class="product-card ">
+                <a href="#" class="text-decoration-none">
+                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
+                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/301);"></div>
+                    <div class="p-3 product-card-detail">
+                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
+                        <div class="product-price text-dark">
+                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
+                        </div>
+                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
+                    </div>
+                </a>
+                <button type="button" class="btn btn-primary product-add-basket background-color-main"
+                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
+                    Sepete Ekle
+                </button>
+            </div>
+            <div class="product-card ">
+                <a href="#" class="text-decoration-none">
+                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
+                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/302);"></div>
+                    <div class="p-3 product-card-detail">
+                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
+                        <div class="product-price text-dark">
+                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
+                        </div>
+                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
+                    </div>
+                </a>
+                <button type="button" class="btn btn-primary product-add-basket background-color-main"
+                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
+                    Sepete Ekle
+                </button>
+            </div>
+            <div class="product-card ">
+                <a href="#" class="text-decoration-none">
+                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
+                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/303);"></div>
+                    <div class="p-3 product-card-detail">
+                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
+                        <div class="product-price text-dark">
+                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
+                        </div>
+                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
+                    </div>
+                </a>
+                <button type="button" class="btn btn-primary product-add-basket background-color-main"
+                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
+                    Sepete Ekle
+                </button>
+            </div>
+            <div class="product-card ">
+                <a href="#" class="text-decoration-none">
+                    <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
+                    <div class="product-card-img" style="background: url(https://picsum.photos/1920/304);"></div>
+                    <div class="p-3 product-card-detail">
+                        <div class="product-title">Xiaomi Red Mi Note 9 Pro </div>
+                        <div class="product-price text-dark">
+                            Yeni Fiyat : <span class="fw-bold"> 250.00 ₺</span>
+                        </div>
+                        <div class="product-stock text-dark"> Son Kalan {{StockType}}: 25 </div>
+                    </div>
+                </a>
+                <button type="button" class="btn btn-primary product-add-basket background-color-main"
+                        onclick="/*Product Detail href=\Product\Detail?id={{Guid}}*/">
+                    Sepete Ekle
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

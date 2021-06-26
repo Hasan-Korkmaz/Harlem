@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Kullanıcı Girişi</title>
+    <title>Harlem - | - Kullanıcı Girişi</title>
 
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1359,7 +1359,7 @@
                     </a>
 
                 </div>
-                <form method="post" action="\backoffice\account\login" role="form">
+                <form method="post" action="\backoffice\account\login" name="loginForm"  role="form">
                     <div>
                         <div class="providerLinkingFeedback" style="z-index: 15"></div>
                         <div class="baslik">YÖNETİCİ GİRİŞİ</div>
@@ -1407,7 +1407,7 @@
     submitPhase2 = 400,
     logoutPhase1 = 800,
     $login = $(".login"),
-    $girisform = document.getElementsByName("girisformu")[0];
+        $girisform = document.getElementsByName("loginForm")[0];
     $app = $(".app");
 
     function ripple(elem, e) {

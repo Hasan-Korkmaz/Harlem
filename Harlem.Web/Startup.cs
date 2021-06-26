@@ -37,8 +37,8 @@ namespace Harlem.Web
             services.AddScoped<IProductDAL, ProductDAL>();
             services.AddScoped<IProductImageDAL, ProductImageDAL>();
 
-            services.AddScoped<ICategoryService, CategoryMenager>();
-            services.AddScoped<IProductService, ProductMenager>();
+            services.AddScoped<ICategoryService,CategoryManager>();
+            services.AddScoped<IProductService, ProductManager>();
 
             services.AddScoped<IProductImageService, ProductImageMenager>();
 
