@@ -1,5 +1,4 @@
-﻿using Harlem.BLL.Abstract;
-using Harlem.Core.Tools;
+﻿using Harlem.Core.Tools;
 using Harlem.DAL.Abstract.Template;
 using Harlem.Entity.DbModels;
 using System;
@@ -107,7 +106,6 @@ namespace Harlem.BLL.Concrete
             }
             return result;
         }
-
         public virtual Result<TEntity> Get(Expression<Func<TEntity, bool>> condition = null)
         {
             var result = new Result<TEntity>();
@@ -139,7 +137,6 @@ namespace Harlem.BLL.Concrete
             }
             return result;
         }
-
         public virtual Result<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> condition = null)
         {
             var result = new Result<List<TEntity>>();
@@ -178,7 +175,5 @@ namespace Harlem.BLL.Concrete
             }
             return result;
         }
-
-       
     }
 }

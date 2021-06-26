@@ -1,20 +1,17 @@
 ﻿using Harlem.BLL.Abstract;
 using Harlem.Core.Tools;
 using Harlem.Entity.DbModels;
-using Harlem.Entity.DTO;
+using Harlem.Entity.DTO.Catalog;
 using Harlem.Entity.FrontEndTypes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Harlem.Web.Areas.backoffice.Controllers
 {
     [Area("BackOffice")]
-
     public class ProductController : Controller
     {
         IProductService productService;
@@ -26,9 +23,14 @@ namespace Harlem.Web.Areas.backoffice.Controllers
             this.environment = environment;
             this.productImageService = productImageService;
         }
+
         public IActionResult Index()
         {
-            ViewBag.ActiveMenu = new ActiveMenu { ActiveSubMenu = "product", ActiveTopMenu = "defination" };
+            ViewBag.ActiveMenu = new ActiveMenu
+            {
+                ActiveSubMenu = "product",
+                ActiveTopMenu = "defination"
+            };
 
             return View();
         }
@@ -41,7 +43,7 @@ namespace Harlem.Web.Areas.backoffice.Controllers
         {
             ViewBag.ViewActionType = Enums.ViewStatus.Update;
             var model = productService.Get(x => x.Id == id);
-            if (productImageService.GetAll(x => x.ProductId == id).Status==Enums.BLLResultType.Success)
+            if (productImageService.GetAll(x => x.ProductId == id).Status == Enums.BLLResultType.Success)
             {
                 model.Entity.ProductImages = productImageService.GetAll(x => x.ProductId == id).Entity;
             }
@@ -54,7 +56,7 @@ namespace Harlem.Web.Areas.backoffice.Controllers
         {
             if (product.Id == Guid.Empty)
                 product.Id = Guid.NewGuid();
-            if (product.ProductImages!=null && product.ProductImages.Where(x=> x.Image!=null).Count()>0)
+            if (product.ProductImages != null && product.ProductImages.Where(x => x.Image != null).Count() > 0)
             {
                 foreach (var item in product.ProductImages)
                 {
@@ -71,8 +73,8 @@ namespace Harlem.Web.Areas.backoffice.Controllers
                         item.isActive = true;
                     }
                 }
-            }   
-            
+            }
+
             var resp = productService.Add(product);
             foreach (var item in product.ProductImages)
             {
@@ -128,9 +130,9 @@ namespace Harlem.Web.Areas.backoffice.Controllers
                 {
                     if (item.isDelete)
                     {
-                       
-                            productImageService.DeleteExpression(x => x.Id == item.Id);
-                        
+
+                        productImageService.DeleteExpression(x => x.Id == item.Id);
+
                     }
                 }
             }
@@ -149,7 +151,7 @@ namespace Harlem.Web.Areas.backoffice.Controllers
 
 
             resp.Entity.ProductImages = null;
-            
+
             return new ApiResponse<Product>() { Data = resp.Entity, Message = resp.Message, Status = resp.Status == Enums.BLLResultType.Success ? true : false };
         }
         [HttpPut]
