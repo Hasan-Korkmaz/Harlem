@@ -1,10 +1,6 @@
 ﻿using Harlem.BLL.Abstract;
 using Harlem.Entity.FrontEndTypes;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Harlem.Web.Areas.backofis.Controllers
 {
