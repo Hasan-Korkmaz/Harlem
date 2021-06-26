@@ -17,6 +17,14 @@ namespace Harlem.DAL.Concrete.Context
                 optionsBuilder.UseSqlServer(@"Server=.;Database=HarlemDB;Trusted_Connection=True;ConnectRetryCount=0");
             }
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Order>()
+          .HasOne(i => i.Address)
+          .WithMany(c => c.Orders)
+          .OnDelete(DeleteBehavior.NoAction)
+          ;
+        }
         public DbSet<Category> Categories{ get; set; }
         public DbSet<Product> Products{ get; set; }
         public DbSet<ProductImage> ProductImagess{ get; set; }
