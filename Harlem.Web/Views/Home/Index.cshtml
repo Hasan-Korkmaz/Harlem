@@ -25,13 +25,12 @@
                 </div>
             </div>
         </div>
-        <div class=" product-container p-3 d-flex justify-content-between flex-wrap"
+        <div class=" product-container p-3 d-flex  flex-wrap"
              style="width: 75%; min-height: 600px;">
             @foreach (Harlem.Entity.DTO.Catalog.ProductDTO item in ViewBag.Products)
             {
                 <div class="product-card ">
-                    <a href="href=\Product\Detail?id=@(item.Id)" class="text-decoration-none">
-                        <!--Product Detail href="\Product\Detail?id={{Guid}}"-->
+                    <a href="\Product\Detail?id=@(item.Id)" class="text-decoration-none">
                         <div class="product-card-img" style='background: url("@(item.ProductImages.FirstOrDefault()!=null? item.ProductImages.OrderBy(x=> x.Order).FirstOrDefault().PublicURL:"" )");'></div>
                         <div class="p-3 product-card-detail">
                             <div class="product-title">@item.Name </div>
@@ -42,7 +41,7 @@
                         </div>
                     </a>
                     <button type="button" class="btn btn-primary product-add-basket background-color-main"
-                            onclick="href=\Account\AddBasket?id=@(item.Id) ">
+                            onclick="window.location.href = '/Account/AddBasket?id=@(item.Id)'">
                         Sepete Ekle
                     </button>
                 </div>
@@ -75,7 +74,7 @@
                         location.href = "/Home/Category?id=" + e.itemData.id
                     },
                     noDataText: "Eşleşen Veri Bulanamadi.",
-                    items: products,
+                    items: categories,
                     searchEnabled: true,
                     searchMode: searchMode,
                     searchEditorOptions: {
@@ -87,10 +86,10 @@
             ko.applyBindings(viewModel);
         };
 
-        var products = [
+        var categories = [
                 @foreach (Harlem.Entity.DbModels.Category item in ViewBag.Categories)
                 {
-                    <text> { id: '@(item.Id)', text: '@(item.DisplayName)' }, </text>
+                    <text> { id: '@(item.Id)', text: '@Html.Raw(item.DisplayName.ToString())' }, </text>
                 }
         ];
 </script>

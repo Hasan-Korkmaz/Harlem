@@ -4,6 +4,12 @@ using Harlem.Entity.DbModels;
 
 namespace Harlem.BLL.Concrete.Services
 {
-    public class OrderManager : TemplateDataService<Order, IOrderDAL>, IOrderService { }
+    public class OrderManager : TemplateDataService<Order, IOrderDAL>, IOrderService 
+    {
+        public OrderManager(IOrderDAL orderDAL)
+        {
+            this._dataProvider = orderDAL;
+        }
+    }
     
 }

@@ -42,6 +42,7 @@ namespace Harlem.Web
             services.AddScoped<IBasketDAL, BasketDAL>();
             services.AddScoped<IOrderDAL, OrderDAL>();
             services.AddScoped<IOrderItemDAL, OrderItemDAL>();
+            services.AddScoped<IBasketItemDAL, BasketItemDAL>();
 
             services.AddScoped<ICategoryService,CategoryManager>();
             services.AddScoped<IProductService, ProductManager>();

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Runtime.Serialization.Formatters.Binary;
 using Harlem.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
 
 namespace Harlem.Core.Tools
 {
@@ -35,5 +36,19 @@ namespace Harlem.Core.Tools
                 return (T)formatter.Deserialize(ms);
             }
         }
+        public static string Md5Hash(this string rawData)
+        {
+            MD5CryptoServiceProvider cryptoGrapher = new MD5CryptoServiceProvider();
+            byte[] dizi = Encoding.UTF8.GetBytes(rawData);
+            dizi = cryptoGrapher.ComputeHash(dizi);
+            StringBuilder sb = new StringBuilder();
+            foreach (byte ba in dizi)
+            {
+                sb.Append(ba.ToString("x2").ToLower());
+            }
+            return sb.ToString();
+        }
+
     }
 }
+

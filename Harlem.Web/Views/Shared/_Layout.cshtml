@@ -4,10 +4,11 @@
     <title>Harlem Alışveriş</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" >
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" >
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.3/css/dx.common.css" />
@@ -50,13 +51,13 @@
             </div>
 
             <div class="col-8 justify-content-between d-flex" style="height: 120px;">
-                <div class="d-center col-2">
+                <a href="/" class="d-center col-2">
                     <img src="~/Images/Logo/logo.png" height="100">
-                </div>
+                </a>
                 <div style=" font-size: 30px;" class="d-center h-100 col-6">
                     <form class="w-100" style="position: relative;" action="\Home\ara" method="GET">
                         <input src="ara" class="w-100 ara-input   " placeholder="Aramak istediğiniz bir şey mi var ?">
-                        <button style="position: absolute;right: 3px;top: 0; background: transparent;" class="ara-btn">
+                        <button style="position: absolute; right: -17px; top: -5px; padding: 5px 20px 0 20px; background: transparent; " class="ara-btn">
                             <i class="fas fa-search color-main"></i>
                         </button>
                     </form>
@@ -79,14 +80,18 @@
                             </span>
                         </a>
                     </div>
-                    <div class="ml-5 basket-container d-flex align-items-center justify-content-center">
-                        <a href="/Account/Basket">
-                            <i class="fas fa-shopping-basket"></i>
-                        </a>
+                    <div class="d-center basket-container">
+                        <div  class="dropdown-basket ">
+                            <a href="/Account/Basket" class="fas fa-shopping-basket"></a>
+                            <div class="dropdown-basket-content">
+                                <a href="/Account/MyAdress?id=c1409fa6-a328-4929-a3e1-e74dcf07ce55" class="basket-btn-dropdown-item">Adreslerim</a>
+                                <a href="/Account/Orders" class="basket-btn-dropdown-item">Siparişlerim</a>
+                                <a href="/Account/Basket" class="basket-btn-dropdown-item">Sepetim</a>
+                                <a href="/Account/OrderTracking" class="basket-btn-dropdown-item">Kargo Takip</a>
+
+                            </div>
+                        </div>
                     </div>
-
-
-
                 </div>
             </div>
             <div class="col-8 d-flex justify-content-around mb-3">
@@ -202,11 +207,11 @@
                                         <div class="form-bor">
                                             <div class="form-input-group">
                                                 <label for="">E-Mail</label>
-                                                <input type="mail" name="mail">
+                                                <input type="email" name="Mail">
                                             </div>
                                             <div class="form-input-group">
                                                 <label for="">Şifre</label>
-                                                <input type="password" name="password">
+                                                <input type="password" name="Password">
                                             </div>
                                             <div class="form-input-checkbox">
                                                 <input type="checkbox" id="test1" />
@@ -219,28 +224,32 @@
                                     </form>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="profile">
-                                    <form action="">
+                                    <form action="\Account\AddAccountUser" method="POST">
                                         <div class="form-bor">
                                             <div class="form-input-group">
                                                 <label for="">Yeni Kullanıcı</label>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="fst-username" placeholder="İsim">
+                                                        <input type="text" name="Name" placeholder="İsim">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" name="lst-username" placeholder="Soyisim">
+                                                        <input type="text" name="Surname" placeholder="Soyisim">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-input-group">
+                                                <label for="">Telefon</label>
+                                                <input type="tel" name="Phone" placeholder="+90XXXXXXXXXX">
+                                            </div>
+                                            <div class="form-input-group">
                                                 <label for="">E-Mail</label>
-                                                <input type="text" name="email" placeholder="E-Mail">
-                                                <input type="text" name="re-email" placeholder="Tekrar Email">
+                                                <input type="text" name="Mail" placeholder="E-Mail">
+                                                <input type="text" name="Re-Email" placeholder="Tekrar Email">
                                             </div>
                                             <div class="form-input-group">
                                                 <label for="">Şifre</label>
-                                                <input type="password" name="password" placeholder="Password">
-                                                <input type="password" name="password" placeholder="Confirm Password">
+                                                <input type="password" name="Password" placeholder="Password">
+                                                <input type="password" name="Password" placeholder="Confirm Password">
                                             </div>
                                             <div class="form-input-group">
                                                 <button>Kayıt Ol</button>

@@ -6,7 +6,10 @@ namespace Harlem.BLL.Concrete.Services
 {
     public class AccountUserManager : TemplateDataService<AccountUser, IAccountUserDAL>, IAccountUserService
     {
-
+        public AccountUserManager(IAccountUserDAL accountUserDAL)
+        {
+            this._dataProvider = accountUserDAL;
+        }
     }
     
 }
