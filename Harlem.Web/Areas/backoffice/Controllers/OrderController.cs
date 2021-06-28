@@ -19,10 +19,8 @@ namespace Harlem.Web.Areas.backoffice.Controllers
         }
 
 
-
-        public IActionResult CalcelOrder(int orderId)
+        public IActionResult CancelOrder(int orderId)
         {
-
 
             return Ok();
         }

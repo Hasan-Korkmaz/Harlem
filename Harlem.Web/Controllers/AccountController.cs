@@ -1,12 +1,12 @@
 ﻿using Harlem.BLL.Abstract;
 using Harlem.Core.Tools;
 using Harlem.Entity.DbModels;
+using Harlem.Entity.DTO.Users;
 using Harlem.Entity.FrontEndTypes.ViewModels;
+using Harlem.Web.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Harlem.Web.Controllers
@@ -18,14 +18,32 @@ namespace Harlem.Web.Controllers
         IBasketItemService basketItemService;
         IProductService productService;
         IAccountUserAddressService accountUserAddressService;
-        public AccountController(IAccountUserService accountUserService,IBasketService basketService,IBasketItemService basketItemService, IProductService productService, IAccountUserAddressService accountUserAddressService)
+        private readonly UserManager userManager;
+
+        public AccountController(
+            IAccountUserService accountUserService, 
+            IBasketService basketService, 
+            IBasketItemService basketItemService, 
+            IProductService productService, 
+            IAccountUserAddressService accountUserAddressService,
+            UserManager userManager)
         {
             this.accountUserService = accountUserService;
             this.basketService = basketService;
             this.basketItemService = basketItemService;
             this.productService = productService;
             this.accountUserAddressService = accountUserAddressService;
+            this.userManager = userManager;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(UserLoginDTO model)
+        {
+            await userManager.SingIn(this.HttpContext, model);
+
+            return Ok();
+        }
+
         [HttpPost]
         public IActionResult AddAccountUser(AccountUserRegisterViewModel registerModel)
         {
@@ -76,11 +94,12 @@ namespace Harlem.Web.Controllers
 
         }
         //Yalnızca Auth olduysa
+
         public IActionResult MyAdress(Guid id)
         {
             //Contexten alınacak
-           var entity= accountUserAddressService.GetAll(x => x.isActive==true && x.UserId==id);
-            if (entity.Status==Enums.BLLResultType.Success)
+            var entity = accountUserAddressService.GetAll(x => x.isActive == true && x.UserId == id);
+            if (entity.Status == Enums.BLLResultType.Success)
             {
                 return View(entity.Entity);
 
@@ -88,10 +107,11 @@ namespace Harlem.Web.Controllers
             return View();
 
         }
+
         public IActionResult DeleteAdress(Guid id)
         {
             //Contexten alınacak
-            var entity1 = accountUserAddressService.DeleteExpression(x => x.Id==id);
+            var entity1 = accountUserAddressService.DeleteExpression(x => x.Id == id);
             var entity = accountUserAddressService.GetAll(x => x.isActive == true && x.UserId == id);
 
             if (entity.Status == Enums.BLLResultType.Success)
@@ -102,17 +122,19 @@ namespace Harlem.Web.Controllers
             return View();
 
         }
+
         public IActionResult NewAdress()
         {
             return View();
         }
+
         [HttpGet]
-        public IActionResult AddBasket( Guid id)
+        public IActionResult AddBasket(Guid id)
         {
             Basket basket;
             var sessionId = Guid.Empty;
             var userId = Guid.Empty;
-            var product=productService.Get(x => x.Id == id).Entity;
+            var product = productService.Get(x => x.Id == id).Entity;
             if (HttpContext.Request.Cookies["UserId"] == null)
             {
                 if (HttpContext.Request.Cookies["SessionId"] != null)
@@ -138,17 +160,17 @@ namespace Harlem.Web.Controllers
 
 
 
-            if (userId!=Guid.Empty)
+            if (userId != Guid.Empty)
             {
                 //KULLANICININ SEPETİ VARMI ?
-                var accountHaveBasket= basketService.Get(x => x.AccountUserId == userId);
-                if (accountHaveBasket.Status==Enums.BLLResultType.Success)
+                var accountHaveBasket = basketService.Get(x => x.AccountUserId == userId);
+                if (accountHaveBasket.Status == Enums.BLLResultType.Success)
                 {
                     basket = accountHaveBasket.Entity;
                 }
                 else
                 {
-                   basket= basketService.Add(new Entity.DbModels.Basket()
+                    basket = basketService.Add(new Entity.DbModels.Basket()
                     {
                         Id = Guid.NewGuid(),
                         AccountUserId = userId,
@@ -180,9 +202,9 @@ namespace Harlem.Web.Controllers
                     }).Entity;
                 }
             }
-            
-           var basketItem= basketItemService.Get(x => x.ProductId == id);
-            if (basketItem.Status==Enums.BLLResultType.Success)
+
+            var basketItem = basketItemService.Get(x => x.ProductId == id);
+            if (basketItem.Status == Enums.BLLResultType.Success)
             {
                 basketItem.Entity.Qty++;
                 basketItemService.Update(basketItem.Entity);
@@ -202,8 +224,8 @@ namespace Harlem.Web.Controllers
 
                 });
             }
-           
-            
+
+
             return View("Basket");
         }
         public IActionResult Basket()
