@@ -6,9 +6,9 @@ namespace Harlem.BLL.Concrete.Services
 {
     public class CategoryManager: TemplateDataService<Category, ICategoryDAL>,ICategoryService
     {
-        public CategoryManager(ICategoryDAL categoryDAL)
+        public CategoryManager(ICategoryDAL categoryDAL) : base(categoryDAL)
         {
-            this._dataProvider = categoryDAL;
+           
         }
     }
 }

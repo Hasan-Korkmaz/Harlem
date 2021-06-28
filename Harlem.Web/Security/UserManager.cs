@@ -55,17 +55,17 @@ namespace Harlem.Web.Security
             claims.Add(new Claim(ClaimTypes.Surname, user.Surname));
             claims.Add(new Claim(ClaimTypes.Email, user.Email));
 
-            // Todo: Rol Kullanılacak İse bu kısım aktif edilecek
-            // claims.AddRange(this.GetUserRoleClaims(user));
+            claims.AddRange(this.GetUserRoleClaims(user));
+
             return claims;
         }
 
         private IEnumerable<Claim> GetUserRoleClaims(UserDTO user)
         {
+
             List<Claim> claims = new List<Claim>();
 
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            // claims.Add(new Claim(ClaimTypes.Role, user.UserPermissionType.ToString()));
+            claims.Add(new Claim(ClaimTypes.Role, user.Role));
             return claims;
         }
     }

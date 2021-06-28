@@ -13,9 +13,9 @@ namespace Harlem.BLL.Concrete.Services
 {
     public class ProductManager: TemplateDataService<Product, IProductDAL>, IProductService
     {
-        public ProductManager(IProductDAL productDAL)
+        public ProductManager(IProductDAL productDAL) : base(productDAL)
         {
-            this._dataProvider = productDAL;
+
         }
         public override Result<Product> Add(Product entity)
         {

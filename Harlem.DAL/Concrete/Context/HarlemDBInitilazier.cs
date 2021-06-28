@@ -206,7 +206,7 @@ namespace Harlem.DAL.Concrete.Context
                     Id = Guid.NewGuid(),
                     Name = "Celal",
                     Surname = "Şengör",
-                    Password = "35077d17f7522ac47e7466ab228bfad0",
+                    Password = "customer".Md5Hash(),
                     Phone = "+905003529090",
                     Email = "CDelta@Harlemticaret.com",
                     InsertDateTime = DateTime.Now,

@@ -11,7 +11,5 @@ namespace Harlem.BLL.Abstract
     public interface IAccountUserAddressService : IDataService<AccountUserAddress>
     {
         public Result<List<UserAddressDTO>> GetAllDTO(Expression<Func<AccountUserAddress, bool>> condition = null);
-
-
     }
 }

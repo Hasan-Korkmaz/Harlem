@@ -3,18 +3,14 @@ using Harlem.BLL.Concrete.Services;
 using Harlem.DAL.Abstract;
 using Harlem.DAL.Concrete.Context;
 using Harlem.DAL.Concrete.DataAccesLayers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace Harlem.Web
@@ -33,6 +29,12 @@ namespace Harlem.Web
         {
             services.AddMvc();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddSession();
+
+
+            services.AddScoped<Security.UserManager>();
+
             services.AddScoped<ICategoryDAL, CategoryDAL>();
             services.AddScoped<IProductDAL, ProductDAL>();
             services.AddScoped<IProductImageDAL, ProductImageDAL>();
@@ -44,7 +46,7 @@ namespace Harlem.Web
             services.AddScoped<IOrderItemDAL, OrderItemDAL>();
             services.AddScoped<IBasketItemDAL, BasketItemDAL>();
 
-            services.AddScoped<ICategoryService,CategoryManager>();
+            services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<IProductService, ProductManager>();
             services.AddScoped<IProductImageService, ProductImageMenager>();
             services.AddScoped<IUserService, UserManager>();
@@ -55,7 +57,14 @@ namespace Harlem.Web
             services.AddScoped<IOrderService, OrderManager>();
             services.AddScoped<IOrderItemService, OrderItemManager>();
 
-
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                           options =>
+                           {
+                               options.Cookie.Name = "BackOffice";
+                               options.LoginPath = "/BackOffice/Account/Login";
+                               options.LogoutPath = "/BackOffice/Account/Logout";
+                           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +88,7 @@ namespace Harlem.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            var supportedCultures = new[]{new CultureInfo("en-US"),new CultureInfo("es"),};
+            var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("es"), };
 
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
@@ -90,11 +99,14 @@ namespace Harlem.Web
                 SupportedUICultures = supportedCultures
             });
 
+            app.UseCookiePolicy();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

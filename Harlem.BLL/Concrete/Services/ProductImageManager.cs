@@ -12,9 +12,9 @@ namespace Harlem.BLL.Concrete.Services
    
     public class ProductImageMenager : TemplateDataService<ProductImage, IProductImageDAL>, IProductImageService
     {
-        public ProductImageMenager(IProductImageDAL productImageDal)
+        public ProductImageMenager(IProductImageDAL productImageDal) : base(productImageDal)
         {
-            this._dataProvider = productImageDal;
+
         }
 
     }

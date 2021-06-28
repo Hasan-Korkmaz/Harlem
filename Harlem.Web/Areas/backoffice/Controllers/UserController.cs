@@ -15,15 +15,18 @@ namespace Harlem.Web.Areas.backoffice.Controllers
         {
             this.userService = userService;
         }
+        
         public IActionResult Index()
         {
+            ViewBag.ActiveMenu.ActiveSubMenu = "user";
+            ViewBag.ActiveMenu.ActiveTopMenu = "defination";
             return View();
         }
 
         public IActionResult Add()
         {
             ViewBag.ViewActionType = Enums.ViewStatus.Insert;
-            return View("");
+            return View("UserInsertOrUpdateForm");
         }
 
         public IActionResult Update(Guid id)
@@ -32,16 +35,31 @@ namespace Harlem.Web.Areas.backoffice.Controllers
             return View("");
         }
 
+        [HttpPost]
         public ApiResponse<User> Add(User user)
         {
 
             return null;
         }
 
+        [HttpPost]
         public ApiResponse<User> Update(User user)
         {
 
             return null;
         }
-    }
+
+        [HttpPut]
+        public ApiResponse<User> Delete(Guid id)
+        {
+            throw new Exception();
+        }
+
+        [HttpPost]
+        public ApiResponse<User> GetList()
+        {
+
+            return null;
+        }
+    } 
 }

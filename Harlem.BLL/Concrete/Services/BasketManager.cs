@@ -6,7 +6,7 @@ namespace Harlem.BLL.Concrete.Services
 {
     public class BasketManager : TemplateDataService<Basket, IBasketDAL>, IBasketService
     {
-        public BasketManager(IBasketDAL basketDAL)
+        public BasketManager(IBasketDAL basketDAL) : base(basketDAL)
         {
             this._dataProvider = basketDAL;
         }

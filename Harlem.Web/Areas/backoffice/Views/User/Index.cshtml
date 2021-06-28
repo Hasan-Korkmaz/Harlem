@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "User Index";
     Layout = "~/Areas/backoffice/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,30 +15,25 @@
             </div>
             <div class="modal-body">
                 <div id="InsertOrUpdateModalBody"></div>
-
             </div>
-
         </div>
     </div>
 </div>
+
 
 <!--DELETE MODAL-->
 <div class="modal fade" id="DeleteModal">
     <div class="modal-dialog modal-m">
         <div class="modal-content ">
             <div class="modal-body">
-
-
             </div>
             <div class="modal-footer justify-content-end">
                 <button type="button" class="btn btn-sm bg-danger" data-dismiss="modal">Kapat</button>
                 <button type="button" id="DeleteModalOkButton" class="btn btn-sm bg-primary ">Onayla ve Sil</button>
-
             </div>
         </div>
     </div>
 </div>
-
 
 <section class="content">
     <div class="container-fluid">
@@ -74,6 +69,7 @@
     </div>
 </section>
 
+
 <script>
     var table;
     var activeRow;
@@ -108,62 +104,5 @@
         table = DataTable("categoryTable", "/backoffice/category/getlist", "get", columns);
     })
 
-    function OpenNewRecordModal() {
 
-        LoadPage("/backoffice/category/add", "GET", "#InsertOrUpdateModalBody", function () { insertOrUpdateModal.modal("toggle") });
-    }
-
-    function DeleteRecord(row) {
-        if (row == null || row == undefined) {
-            toastr["error"](" Tablodaki veriye erişim hatası", "Veri Erişim");
-        }
-        else {
-            var itemName = table.row(row).data().name;
-            var itemId = table.row(row).data().id;
-            var modalContentContainer = $('#DeleteModal .modal-body');
-            modalContentContainer.html("Kategori Adı : " + itemName + "<br> Silmek üzeresiniz. Bu işlemi onaylıyormusunuz ?")
-            deleteModal.modal("toggle");
-            $('#DeleteModalOkButton').attr('onclick', "DeleteRow('" + itemId + "')");
-        }
-    }
-
-    function DeleteRow(id) {
-        
-        $.ajax({
-            url: "/backoffice/category/delete?id=" + id,
-            type: "PUT",
-            cache: false,
-            success: function (json) {
-                if (json.status === true) {
-                    toastr["success"](json.message, "Başarılı")
-                }
-                else if (json.status === false) {
-                    toastr["error"](json.message, "İç sunucu hatası.")
-                }
-                return json.data;
-                $(location).html(response);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                toastr["error"]("Sunucuya Erişim Sağlanamadı.", "İletişim Hatası !")
-            },
-            complete: function () {
-                deleteModal.modal("toggle");
-                table.ajax.reload();
-            }
-        });
-    }
-
-    function UpdateRow(row) {
-        if (row == null || row == undefined) {
-            toastr["error"](" Tablodaki veriye erişim hatası", "Veri Erişim");
-        }
-        else {
-            var itemId = table.row(row).data().id;
-            LoadPage("/backoffice/category/Update", "GET", "#InsertOrUpdateModalBody",
-                function () {
-                    insertOrUpdateModal.modal("toggle")
-                },
-                { id: itemId });
-        }
-    }
 </script>

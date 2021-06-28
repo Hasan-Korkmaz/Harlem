@@ -6,9 +6,8 @@ namespace Harlem.BLL.Concrete.Services
 {
     public class OrderItemManager : TemplateDataService<OrderItem, IOrderItemDAL>, IOrderItemService 
     {
-        public OrderItemManager(IOrderItemDAL orderItemDAL)
+        public OrderItemManager(IOrderItemDAL orderItemDAL) : base(orderItemDAL)
         {
-            this._dataProvider = orderItemDAL;
         }
     }
     

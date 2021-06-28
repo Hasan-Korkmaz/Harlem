@@ -1,16 +1,14 @@
 ﻿using Harlem.BLL.Abstract;
 using Harlem.Entity.FrontEndTypes;
 using Harlem.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Harlem.Web.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

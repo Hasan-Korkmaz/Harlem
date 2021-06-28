@@ -11,6 +11,12 @@ namespace Harlem.BLL.Concrete
     {
         //DataAccesLayer Instance
         internal TDataProvider _dataProvider;
+
+        public TemplateDataService(TDataProvider dataProvider)
+        {
+            _dataProvider = dataProvider;
+        }
+        
         public virtual Result<TEntity> Add(TEntity entity)
         {
             var result = new Result<TEntity>();

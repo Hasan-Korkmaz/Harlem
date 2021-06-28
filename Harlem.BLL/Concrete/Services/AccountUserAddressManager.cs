@@ -11,7 +11,7 @@ namespace Harlem.BLL.Concrete.Services
 {
     public class AccountUserAddressManager : TemplateDataService<AccountUserAddress, IAccountUserAddressDAL>,  IAccountUserAddressService
     {
-        public AccountUserAddressManager(IAccountUserAddressDAL accountUserAddressDAL)
+        public AccountUserAddressManager(IAccountUserAddressDAL accountUserAddressDAL) : base(accountUserAddressDAL)
         {
             this._dataProvider = accountUserAddressDAL;
         }

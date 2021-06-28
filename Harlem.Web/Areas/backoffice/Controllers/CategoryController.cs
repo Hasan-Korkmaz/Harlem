@@ -1,6 +1,7 @@
 ﻿using Harlem.BLL.Abstract;
 using Harlem.Core.Tools;
 using Harlem.Entity.DbModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 namespace Harlem.Web.Areas.backoffice.Controllers
 {
     [Area("BackOffice")]
-
+    [Authorize(Roles = "Administrator")]
     public class CategoryController : Controller
     {
         ICategoryService categoryService;
