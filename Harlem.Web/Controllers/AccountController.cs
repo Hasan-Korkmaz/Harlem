@@ -7,10 +7,15 @@ using Harlem.Web.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Harlem.Web.Controllers
 {
+    [Authorize(Roles = "Customer",AuthenticationSchemes ="CustomerCookie")]
     public class AccountController : Controller
     {
         IAccountUserService accountUserService;
@@ -18,6 +23,7 @@ namespace Harlem.Web.Controllers
         IBasketItemService basketItemService;
         IProductService productService;
         IAccountUserAddressService accountUserAddressService;
+        IUserService userService;
         private readonly UserManager userManager;
 
         public AccountController(
@@ -26,6 +32,7 @@ namespace Harlem.Web.Controllers
             IBasketItemService basketItemService, 
             IProductService productService, 
             IAccountUserAddressService accountUserAddressService,
+            IUserService userService,
             UserManager userManager)
         {
             this.accountUserService = accountUserService;
@@ -34,17 +41,44 @@ namespace Harlem.Web.Controllers
             this.productService = productService;
             this.accountUserAddressService = accountUserAddressService;
             this.userManager = userManager;
+            this.userService = userService;
         }
+     
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginDTO model)
         {
-            await userManager.SingIn(this.HttpContext, model);
+            var user= userService.CheckUser(model);
+            if (user != null && user.Role=="Customer")
+            {
+              
+                    List<Claim> claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+                    claims.Add(new Claim(ClaimTypes.Name, user.Name));
+                    claims.Add(new Claim(ClaimTypes.Surname, user.Surname));
+                    claims.Add(new Claim(ClaimTypes.Email, user.Email));
+                    claims.Add(new Claim(ClaimTypes.Role, user.Role));
+                var authProperties = new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddYears(1),
+                    IsPersistent = model.RememberMe,
+                };
+                    ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "CustomerCookie"));
+                    await this.HttpContext.SignInAsync("CustomerCookie", principal,authProperties);
+                
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index","Home",new {login=1 });
+            }
 
-            return Ok();
+
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult AddAccountUser(AccountUserRegisterViewModel registerModel)
         {
             if (ModelState.IsValid)

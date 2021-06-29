@@ -81,7 +81,7 @@
                         </a>
                     </div>
                     <div class="d-center basket-container">
-                        <div  class="dropdown-basket ">
+                        <div class="dropdown-basket ">
                             <a href="/Account/Basket" class="fas fa-shopping-basket"></a>
                             <div class="dropdown-basket-content">
                                 <a href="/Account/MyAdress?id=c1409fa6-a328-4929-a3e1-e74dcf07ce55" class="basket-btn-dropdown-item">Adreslerim</a>
@@ -203,18 +203,18 @@
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active form-are" id="login">
-                                    <form action="">
+                                    <form action="\Account\Login" method="POST">
                                         <div class="form-bor">
                                             <div class="form-input-group">
                                                 <label for="">E-Mail</label>
-                                                <input type="email" name="Mail">
+                                                <input type="email" name="EMail">
                                             </div>
                                             <div class="form-input-group">
                                                 <label for="">Şifre</label>
                                                 <input type="password" name="Password">
                                             </div>
                                             <div class="form-input-checkbox">
-                                                <input type="checkbox" id="test1" />
+                                                <input type="checkbox" id="test1" name="RememberMe" value=true />
                                                 <label for="test1">Oturum açık tut</label>
                                             </div>
                                             <div class="form-input-group">
@@ -270,6 +270,13 @@
             </div>
         </div>
     </div>
-</body>
+    <script>
+    @if (@ViewBag.LoginOpen) {
+       <text> $(function () {
+            $('#LoginRegisterModal').modal();
+        })</text>
+    }
 
+    </script>
+</body>
 </html>

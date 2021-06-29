@@ -33,7 +33,6 @@ namespace Harlem.Web
             services.AddSession();
 
 
-            services.AddScoped<Security.UserManager>();
 
             services.AddScoped<ICategoryDAL, CategoryDAL>();
             services.AddScoped<IProductDAL, ProductDAL>();
@@ -57,14 +56,22 @@ namespace Harlem.Web
             services.AddScoped<IOrderService, OrderManager>();
             services.AddScoped<IOrderItemService, OrderItemManager>();
 
+            services.AddScoped<Security.UserManager>();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+            .AddCookie("CustomerCookie", options =>
+            {
+                options.Cookie.Name = "CustomerCookie";
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+            }).AddCookie("BackofficeCookie",
                            options =>
                            {
                                options.Cookie.Name = "BackOffice";
                                options.LoginPath = "/BackOffice/Account/Login";
                                options.LogoutPath = "/BackOffice/Account/Logout";
                            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,12 +107,10 @@ namespace Harlem.Web
             });
 
             app.UseCookiePolicy();
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

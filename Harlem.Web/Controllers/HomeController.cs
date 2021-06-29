@@ -8,21 +8,27 @@ using System.Diagnostics;
 
 namespace Harlem.Web.Controllers
 {
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "Customer", AuthenticationSchemes = "CustomerCookie")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-
         IProductService productService;
         ICategoryService categoryService;
+
         public HomeController(IProductService productService, ICategoryService categoryService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
         }
-        public IActionResult Index()
+        [Authorize(Roles = "Customer", AuthenticationSchemes = "CustomerCookie")]
+        [AllowAnonymous]
+        public IActionResult Index(string ReturnUrl, int login = 0)
         {
+            ViewBag.LoginOpen = false;
+            if (login == 1)
+            {
+                ViewBag.LoginOpen = true;
+            }
             ViewBag.ActiveMenu = new ActiveMenu { ActiveTopMenu = "dashboard" };
             var products = productService.GetWithProductImages(x => x.isActive == true);
             var category = categoryService.GetAll(x => x.isActive == true);

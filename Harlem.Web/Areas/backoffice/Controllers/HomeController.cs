@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Harlem.Web.Areas.backofis.Controllers
 {
     [Area("BackOffice")]
-    [Authorize( Roles = "Admin")]
+    [Authorize( Roles = "Admin",AuthenticationSchemes = "BackofficeCookie")]
     public class HomeController : Controller
     {
         IProductService productService;

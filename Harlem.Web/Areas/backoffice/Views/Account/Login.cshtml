@@ -9,7 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">
     <script src="~/Backoffice/Lib/Jquery/jquery.js"></script>
  
-  
+  @{ 
+      var q = ViewBag.AuthMessage;
+      var r = ViewBag.AuthMessage;
+  }
 
   
 </head>
@@ -224,6 +227,18 @@
             -webkit-transform: scale(1);
             transform: scale(1);
             border-radius: 5px;
+            display:flex;justify-content:space-around;
+            flex-direction:column;
+        }
+        .login-error {
+            background-color: red;
+            font-size: 12px;
+            text-align: center;
+            color: white;
+            padding: 15px;
+            width:65%;
+            border-radius:15px;
+        
         }
 
             .login.inactive {
@@ -1350,7 +1365,7 @@
     <div class="cont with-social"
          style=" background: url('/Backoffice/Images/General/Background/LoginBackground.jpg') center center / cover no-repeat; ">
         <div class="giris">
-            <div class="login">
+            <div class="login" >
                 <div class="logo" style="display:flex;justify-content:space-between">
                     <a href="/" style="width: 100%; display: flex; justify-content:center; text-decoration: none; color: black; ">
                         <span style="display: flex; justify-content: center; align-items: center; font-size: 85px; font-family: 'Libre Barcode 39 Text', cursive;">
@@ -1359,7 +1374,7 @@
                     </a>
 
                 </div>
-                <form method="post" action="\backoffice\account\login" name="loginForm"  role="form">
+                <form method="post" action="\backoffice\account\login" name="loginForm" role="form">
                     <div>
                         <div class="providerLinkingFeedback" style="z-index: 15"></div>
                         <div class="baslik">YÖNETİCİ GİRİŞİ</div>
@@ -1389,12 +1404,19 @@
                         </div>
                         <div>
                             <label>
-                                <input type="checkbox" name="rememberme" /> Oturumumu açık
+                                <input type="checkbox" name="RememberMe" value=true /> Oturumumu açık
                                 bırak
                             </label>
                         </div>
                         <button type="submit" class="login__submit">Oturum Aç</button>
 
+                    </div>
+                    <div style="display: flex; justify-content: center; margin-top: 350px;">
+                        @if (!String.IsNullOrEmpty(ViewBag.AuthMessage))
+                        {
+                            <div class="login-error">@ViewBag.AuthMessage</div>
+
+                        }
                     </div>
                 </form>
             </div>
