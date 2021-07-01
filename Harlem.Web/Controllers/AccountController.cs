@@ -19,7 +19,7 @@ using Harlem.Entity.DTO.Catalog;
 namespace Harlem.Web.Controllers
 {
     [Authorize(Roles = "Customer", AuthenticationSchemes = "CustomerCookie")]
-    public class AccountController :_BaseController
+    public class AccountController : _BaseController
     {
         IAccountUserService accountUserService;
         IBasketService basketService;
@@ -36,7 +36,7 @@ namespace Harlem.Web.Controllers
             IProductService productService,
             IAccountUserAddressService accountUserAddressService,
             IUserService userService,
-            UserManager userManager):base(userService)
+            UserManager userManager) : base(userService)
         {
             this.accountUserService = accountUserService;
             this.basketService = basketService;
@@ -78,19 +78,19 @@ namespace Harlem.Web.Controllers
                     var accountHaveBasketSessionBase = basketService.Get(x => x.SessionId == sessionId);
                     //Kullanıcının Normal Sepeti
                     var accountHaveBasketUserBase = basketService.Get(x => x.AccountUserId == user.Id && x.isCompleted == false);
-                    if (accountHaveBasketSessionBase.Status==Enums.BLLResultType.Success)
+                    if (accountHaveBasketSessionBase.Status == Enums.BLLResultType.Success)
                     {
                         var basketId = accountHaveBasketSessionBase.Entity.Id;
-                        var basketItemsForSession=   basketItemService.GetAll(x => x.BasketId == basketId);
-                        if (basketItemsForSession.Status==Enums.BLLResultType.Success)
+                        var basketItemsForSession = basketItemService.GetAllWithProduct(x => x.BasketId == basketId);
+                        if (basketItemsForSession.Status == Enums.BLLResultType.Success)
                         {
                             Basket userBasket;
-                            List<BasketItem> basketItemsForUser=new List<BasketItem>();
-                            if (accountHaveBasketUserBase.Status==Enums.BLLResultType.Success)
+                            List<BasketItem> basketItemsForUser = new List<BasketItem>();
+                            if (accountHaveBasketUserBase.Status == Enums.BLLResultType.Success)
                             {
-                                 userBasket = accountHaveBasketUserBase.Entity;
-                                var basketItemBLL = basketItemService.GetAll(x => x.Id == userBasket.Id);
-                                if (basketItemBLL.Status==Enums.BLLResultType.Success)
+                                userBasket = accountHaveBasketUserBase.Entity;
+                                var basketItemBLL = basketItemService.GetAllWithProduct(x => x.Id == userBasket.Id);
+                                if (basketItemBLL.Status == Enums.BLLResultType.Success)
                                 {
                                     basketItemsForUser = basketItemBLL.Entity.ToList();
                                 }
@@ -114,7 +114,7 @@ namespace Harlem.Web.Controllers
                             foreach (var item in basketItemsForSession.Entity.ToList())
                             {
                                 //Eğer Bu item kullanıcı Sepetinde yoksa ekle
-                                if (basketItemsForUser.Where(x=> x.ProductId==item.ProductId).FirstOrDefault()==null)
+                                if (basketItemsForUser.Where(x => x.ProductId == item.ProductId).FirstOrDefault() == null)
                                 {
                                     basketItemService.Add(new BasketItem()
                                     {
@@ -129,15 +129,20 @@ namespace Harlem.Web.Controllers
                                 else
                                 {
                                     //Eğer Bu item kullanıcı Sepetinde varsa sayısını +=1 yap
-                                    var updateModel =  basketItemService.Get(x => x.Id == item.Id).Entity;
+                                    var updateModel = basketItemService.Get(x => x.Id == item.Id).Entity;
                                     updateModel.Qty += 1;
                                     basketItemService.Update(updateModel);
                                 }
+                                basketItemService.Delete(item);
                             }
+                            basketService.DeleteExpression(x => x.SessionId == sessionId);
+                            var Cookieoption1 = new CookieOptions();
+                            Cookieoption1.Path = HttpContext.Request.PathBase;
+                            HttpContext.Response.Cookies.Delete("SessionId", Cookieoption1);
                         }
                     }
                 }
-                
+
 
                 return RedirectToAction("Index", "Home");
             }
@@ -227,10 +232,10 @@ namespace Harlem.Web.Controllers
                 ViewBag.Title = "Adres Güncelleme";
                 ViewBag.Link = "/Account/UpdateAddress";
 
-                return View("AddressUpdateForm",entity.Entity);
+                return View("AddressUpdateForm", entity.Entity);
             }
             else
-            {    
+            {
                 return BadRequest();
             }
         }
@@ -254,8 +259,8 @@ namespace Harlem.Web.Controllers
                 var entity = adres.Entity;
                 entity.Name = addressDTO.Name;
                 entity.AddressDetail = addressDTO.AddressDetail;
-               var  status = accountUserAddressService.Update(entity);
-                if (status.Status==Enums.BLLResultType.Success)
+                var status = accountUserAddressService.Update(entity);
+                if (status.Status == Enums.BLLResultType.Success)
                 {
                     return RedirectToAction("MyAddress", "Account");
 
@@ -318,15 +323,17 @@ namespace Harlem.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult AddBasket(Guid id)
         {
-           
+
             Basket basket;
             var sessionId = Guid.Empty;
             var userId = Guid.Empty;
-            var product = productService.Get(x => x.Id == id && x.isActive==true).Entity;
-            if (HttpContext.Request.Cookies["UserId"] == null)
+            var product = productService.Get(x => x.Id == id && x.isActive == true).Entity;
+            if (!HttpContext.User.Identity.IsAuthenticated)
             {
+                //Kullanıcı Oturum Açmamış; Bi Kontrol Et Daha önce belli bir sepeti var mı diye ?
                 if (HttpContext.Request.Cookies["SessionId"] != null)
                 {
                     //Kullanıcı Oturum Açmamış Sepete Eklemiş ise 
@@ -412,10 +419,41 @@ namespace Harlem.Web.Controllers
 
             return View("Basket");
         }
-        public IActionResult Basket()
+        public IActionResult GetBasket()
         {
-           
-            return View();
+            List<BasketItem> basketItems = new List<BasketItem>() ;
+            Basket basket = new Basket();
+            Guid userId =Guid.Empty;
+            if (User.Identity.IsAuthenticated)
+            {
+                Guid.TryParse(this.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault(), out userId);
+            }
+            if (userId!=Guid.Empty)
+            {
+              var basketStat=  basketService.Get(x => x.AccountUserId == userId);
+                if (basketStat.Status==Enums.BLLResultType.Success)
+                {
+                    var q= basketItemService.GetAllWithProduct(x => x.BasketId == basketStat.Entity.Id);
+                    if (q.Status==Enums.BLLResultType.Success)
+                    {
+                        decimal total = 0;
+                        foreach (var item in q.Entity)
+                        {
+                            total=item.Price*item.Qty;
+                        }
+                        basketStat.Entity.TotalPrice = total;
+                        basketService.Update(basketStat.Entity);
+                        basketStat.Entity.BasketItem = basketItems;
+                        basket = basketStat.Entity;
+                    }
+                }
+            }
+            var adress = accountUserAddressService.GetAll(x => x.UserId == userId);
+
+            ViewBag.UserAddresses = adress;
+            
+            
+            return View(basket);
         }
     }
 }

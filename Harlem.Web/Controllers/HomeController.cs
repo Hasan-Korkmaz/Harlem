@@ -3,6 +3,7 @@ using Harlem.Entity.FrontEndTypes;
 using Harlem.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -28,6 +29,7 @@ namespace Harlem.Web.Controllers
         [AllowAnonymous]
         public IActionResult Index(string ReturnUrl, int login = 0)
         {
+            
             ViewBag.LoginOpen = false;
             if (login == 1)
             {
