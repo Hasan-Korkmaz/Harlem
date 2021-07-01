@@ -1,0 +1,31 @@
+﻿@model Harlem.Entity.DbModels.AccountUserAddress
+@{
+    Layout = null;
+}
+<form action="@ViewBag.Link" method="POST">
+    <input name="Id" value="@Model.Id" hidden/>
+    <div class="modal-header">
+        <h5 class="modal-title">@ViewBag.Title</h5>
+    </div>
+    <div class="col-12 mt-3">
+        <div class="d-flex flex-column">
+            <div class="form-group row">
+                <label for="Name" class="col-sm-4 col-form-label d-flex fw-bold">Adres İsmi :</label>
+                <div class="col-sm-8">
+                    <input name="Name" class="form-control" type="text" value="@Model.Name">
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <label for="Name" class="col-sm-4 col-form-label content-right fw-bold">Adres Detayı :</label>
+                <div class="col-sm-8">
+                    <textarea name="AddressDetail" class="form-control" type="text" rows="5">@Model.AddressDetail</textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer mt-3">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+        <button  type="submit" class=" btn harlem-btn">Kaydet</button>
+    </div>
+</form>

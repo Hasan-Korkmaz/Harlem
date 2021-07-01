@@ -2,6 +2,7 @@
 using Harlem.Entity.FrontEndTypes;
 using Harlem.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -9,17 +10,20 @@ using System.Diagnostics;
 namespace Harlem.Web.Controllers
 {
     [Authorize(Roles = "Customer", AuthenticationSchemes = "CustomerCookie")]
-    public class HomeController : Controller
+    public class HomeController : _BaseController
     {
         private readonly ILogger<HomeController> _logger;
         IProductService productService;
         ICategoryService categoryService;
 
-        public HomeController(IProductService productService, ICategoryService categoryService)
+        public HomeController(IProductService productService, ICategoryService categoryService,IUserService userService):base(userService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
         }
+        //İkisini birden kullanmak lazım.
+        //Anasayfada login olduysa  AUTHORiZE olmadan Claim'ini alamıyorum.
+        //Bu yüzden hem izin veriyorum hemde izin vermiyorum ✌✌
         [Authorize(Roles = "Customer", AuthenticationSchemes = "CustomerCookie")]
         [AllowAnonymous]
         public IActionResult Index(string ReturnUrl, int login = 0)

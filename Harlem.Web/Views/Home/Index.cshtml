@@ -31,7 +31,7 @@
             {
                 <div class="product-card ">
                     <a href="\Product\Detail?id=@(item.Id)" class="text-decoration-none">
-                        <div class="product-card-img" style='background: url("@(item.ProductImages.FirstOrDefault()!=null? item.ProductImages.OrderBy(x=> x.Order).FirstOrDefault().PublicURL:"" )");'></div>
+                        <div class="product-card-img" style='background-size:100% 100%; background: url("@(item.ProductImages.FirstOrDefault()!=null? item.ProductImages.OrderBy(x=> x.Order).FirstOrDefault().PublicURL:"" )");'></div>
                         <div class="p-3 product-card-detail">
                             <div class="product-title">@item.Name </div>
                             <div class="product-price text-dark">

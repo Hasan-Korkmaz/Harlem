@@ -3,6 +3,8 @@ using Harlem.Core.Tools;
 using Harlem.DAL.Abstract;
 using Harlem.Entity.DbModels;
 using Harlem.Entity.DTO.Users;
+using System;
+using System.Linq.Expressions;
 
 namespace Harlem.BLL.Concrete.Services
 {
@@ -50,6 +52,24 @@ namespace Harlem.BLL.Concrete.Services
             }
             else
                 return null;
+        }
+
+        public UserDTO GetUserWithRoleQuery(Expression<Func<AccountUser, bool>> condition = null)
+        {
+            var data = accountUserDAL.Get(condition);
+            if (data != null)
+                return new UserDTO
+                {
+                    Id = data.Id,
+                    Role = "Admin",
+                    Email = data.Email,
+                    Name = data.Name,
+                    Surname = data.Surname
+                };
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -1,0 +1,78 @@
+﻿@model List<Harlem.Entity.DbModels.AccountUserAddress>
+<div class="w-100 d-flex justify-content-center mb-4 ">
+    <div class="d-flex justify-content-between col-8 p-4 shadow-lg rounded-3" style="background:white">
+        <div class="card mt-3">
+            <div class="card-header d-flex">
+                <div class="col-12 d-flex ">
+                    <h5 style="display: flex;justify-content: center;align-items: center;margin: 0;">Adres Bilgisi</h5>
+                    <a style="color:green; cursor:pointer" class="ms-3 p-2 border border-success"  onclick='NewAddress()'> <i class="fas fa-plus"></i> Yeni</a>
+
+                </div>
+            </div>
+            <div class="card-body d-flex  flex-wrap ">
+                <div class="row">
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="col-5 address-item n">
+                        <div class="d-flex justify-content-between">
+                            <div class="address-title">@item.Name</div>
+                            <div>
+                                <a class="p-2" onclick="window.location.href='/Account/DeleteAdress?id=@item.Id'"> <i class="fas fa-trash-alt"></i></a>
+                                <a class="p-2" onclick='UpdateAddress("@(item.Id)")' href="#"> <i class="fas fa-edit"></i></a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="address-content">
+                            <label for="address1" class="address-detail">
+                                @item.AddressDetail
+                            </label>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="UpdateModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content " style="border-radius: 20px;">
+                <div class="modal-body " >
+                </div>
+            </div>
+        </div>
+</div>
+<script>
+    function UpdateAddress(id) {
+        $(function () {
+            $.ajax({
+                url: "/Account/UpdateAddress?id=" + id,
+                type: "GET",
+                success: function (response) {
+                    $('#UpdateModal .modal-body').html(response);
+                    $('#UpdateModal').modal();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+console                }
+            });
+        })
+    }
+    function NewAddress() {
+        $(function () {
+            $.ajax({
+                url: "/Account/NewAddress",
+                type: "GET",
+                success: function (response) {
+                    $('#UpdateModal .modal-body').html(response);
+                    $('#UpdateModal').modal();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console
+                }
+            });
+        })
+    }
+</script>

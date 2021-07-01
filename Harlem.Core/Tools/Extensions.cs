@@ -7,6 +7,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Harlem.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
+using System.Security.Claims;
+using System.Linq;
 
 namespace Harlem.Core.Tools
 {
@@ -48,6 +50,7 @@ namespace Harlem.Core.Tools
             }
             return sb.ToString();
         }
+      
 
     }
 }

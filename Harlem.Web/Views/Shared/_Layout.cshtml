@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.3/css/dx.common.css" />
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.3/css/dx.light.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     <script src="https://cdn3.devexpress.com/jslib/21.1.3/js/dx.all.js"></script>
@@ -63,28 +62,39 @@
                     </form>
                 </div>
                 <div class=" d-flex justify-content-center h-100  col-3">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <a onclick="$('#LoginRegisterModal').modal();" class="login-btn login-or-register-btn">
-                            <span>
+                    @if (ViewBag.ActiveUser != null)
+                    {<div class="d-flex align-items-center justify-content-center">
+
+                            <a style="color:var(--main)">@ViewBag.ActiveUser.FullName</a>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center justify-content-center">
+                            <a onclick="$('#LoginRegisterModal').modal();" class="login-btn login-or-register-btn">
                                 <span>
-                                    <span>Kaydol</span>
+                                    <span>
+                                        <span>Kaydol</span>
+                                    </span>
                                 </span>
-                            </span>
-                        </a>
-                        <span class="m-1" style="font-size: 2rem;"> / </span>
-                        <a onclick="$('#LoginRegisterModal').modal();" class="register-btn  login-or-register-btn">
-                            <span>
+                            </a>
+                            <span class="m-1" style="font-size: 2rem;"> / </span>
+                            <a onclick="$('#LoginRegisterModal').modal();" class="register-btn  login-or-register-btn">
                                 <span>
-                                    <span>Oturum Aç</span>
+                                    <span>
+                                        <span>Oturum Aç</span>
+                                    </span>
                                 </span>
-                            </span>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    }
+
                     <div class="d-center basket-container">
                         <div class="dropdown-basket ">
                             <a href="/Account/Basket" class="fas fa-shopping-basket"></a>
                             <div class="dropdown-basket-content">
-                                <a href="/Account/MyAdress?id=c1409fa6-a328-4929-a3e1-e74dcf07ce55" class="basket-btn-dropdown-item">Adreslerim</a>
+                                <a href="/Account/MyAddress" class="basket-btn-dropdown-item">Adreslerim</a>
                                 <a href="/Account/Orders" class="basket-btn-dropdown-item">Siparişlerim</a>
                                 <a href="/Account/Basket" class="basket-btn-dropdown-item">Sepetim</a>
                                 <a href="/Account/OrderTracking" class="basket-btn-dropdown-item">Kargo Takip</a>
@@ -93,7 +103,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                    </div>
             <div class="col-8 d-flex justify-content-around mb-3">
                 <a href="#" class=" category-tag">Elektronik</a>
                 <div class="category-vr"></div>
@@ -271,7 +281,7 @@
         </div>
     </div>
     <script>
-    @if (@ViewBag.LoginOpen) {
+    @if (@ViewBag.LoginOpen!= null && @ViewBag.LoginOpen==true) {
        <text> $(function () {
             $('#LoginRegisterModal').modal();
         })</text>

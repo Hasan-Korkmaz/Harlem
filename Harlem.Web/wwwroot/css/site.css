@@ -25,6 +25,19 @@ a {
         color: var(--main);
     }
 
+.harlem-btn {
+    background: #ff9900 none repeat scroll 0 0;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+    .harlem-btn:hover {
+        background: #fff none repeat scroll 0 0;
+        color: #292927;
+    }
+
 .color-main {
     color: var(--main);
 }

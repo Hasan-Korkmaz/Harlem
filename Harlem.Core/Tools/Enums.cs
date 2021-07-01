@@ -35,6 +35,11 @@ namespace Harlem.Core.Tools
             Empty = 3
 
         }
+        public enum Role:ushort
+        {
+            Admin=0,
+            Customer=1
+        }
 
         public enum PaymentType : ushort
         {

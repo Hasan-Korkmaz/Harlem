@@ -12,11 +12,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System.Linq.Expressions;
+using Harlem.Entity.DTO.Catalog;
 
 namespace Harlem.Web.Controllers
 {
-    [Authorize(Roles = "Customer",AuthenticationSchemes ="CustomerCookie")]
-    public class AccountController : Controller
+    [Authorize(Roles = "Customer", AuthenticationSchemes = "CustomerCookie")]
+    public class AccountController :_BaseController
     {
         IAccountUserService accountUserService;
         IBasketService basketService;
@@ -27,13 +30,13 @@ namespace Harlem.Web.Controllers
         private readonly UserManager userManager;
 
         public AccountController(
-            IAccountUserService accountUserService, 
-            IBasketService basketService, 
-            IBasketItemService basketItemService, 
-            IProductService productService, 
+            IAccountUserService accountUserService,
+            IBasketService basketService,
+            IBasketItemService basketItemService,
+            IProductService productService,
             IAccountUserAddressService accountUserAddressService,
             IUserService userService,
-            UserManager userManager)
+            UserManager userManager):base(userService)
         {
             this.accountUserService = accountUserService;
             this.basketService = basketService;
@@ -43,35 +46,104 @@ namespace Harlem.Web.Controllers
             this.userManager = userManager;
             this.userService = userService;
         }
-     
+
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginDTO model)
         {
-            var user= userService.CheckUser(model);
-            if (user != null && user.Role=="Customer")
+            var user = userService.CheckUser(model);
+            if (user != null && user.Role == "Customer")
             {
-              
-                    List<Claim> claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-                    claims.Add(new Claim(ClaimTypes.Name, user.Name));
-                    claims.Add(new Claim(ClaimTypes.Surname, user.Surname));
-                    claims.Add(new Claim(ClaimTypes.Email, user.Email));
-                    claims.Add(new Claim(ClaimTypes.Role, user.Role));
+
+                List<Claim> claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+                claims.Add(new Claim(ClaimTypes.Name, user.Name));
+                claims.Add(new Claim(ClaimTypes.Surname, user.Surname));
+                claims.Add(new Claim(ClaimTypes.Email, user.Email));
+                claims.Add(new Claim(ClaimTypes.Role, user.Role));
                 var authProperties = new AuthenticationProperties
                 {
                     ExpiresUtc = DateTimeOffset.UtcNow.AddYears(1),
                     IsPersistent = model.RememberMe,
                 };
-                    ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "CustomerCookie"));
-                    await this.HttpContext.SignInAsync("CustomerCookie", principal,authProperties);
+                ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "CustomerCookie"));
+                await this.HttpContext.SignInAsync("CustomerCookie", principal, authProperties);
+
+                //Eğer Kullanıcı Oturum açmadan Sepete item eklediyse onları kullanıcının sepetine taşı
+                if (HttpContext.Request.Cookies["SessionId"] != null)
+                {
+                    var sessionId = Guid.Parse(HttpContext.Request.Cookies["SessionId"]);
+                    //Kullanıcının Sessiondaki Sepeti
+                    var accountHaveBasketSessionBase = basketService.Get(x => x.SessionId == sessionId);
+                    //Kullanıcının Normal Sepeti
+                    var accountHaveBasketUserBase = basketService.Get(x => x.AccountUserId == user.Id && x.isCompleted == false);
+                    if (accountHaveBasketSessionBase.Status==Enums.BLLResultType.Success)
+                    {
+                        var basketId = accountHaveBasketSessionBase.Entity.Id;
+                        var basketItemsForSession=   basketItemService.GetAll(x => x.BasketId == basketId);
+                        if (basketItemsForSession.Status==Enums.BLLResultType.Success)
+                        {
+                            Basket userBasket;
+                            List<BasketItem> basketItemsForUser=new List<BasketItem>();
+                            if (accountHaveBasketUserBase.Status==Enums.BLLResultType.Success)
+                            {
+                                 userBasket = accountHaveBasketUserBase.Entity;
+                                var basketItemBLL = basketItemService.GetAll(x => x.Id == userBasket.Id);
+                                if (basketItemBLL.Status==Enums.BLLResultType.Success)
+                                {
+                                    basketItemsForUser = basketItemBLL.Entity.ToList();
+                                }
+                                else
+                                {
+                                    basketItemsForUser = new List<BasketItem>();
+                                }
+                            }
+                            else
+                            {
+                                userBasket = new Basket();
+                                userBasket.Id = Guid.NewGuid();
+
+                                userBasket.AccountUserId = user.Id;
+                                userBasket.isActive = true;
+                                userBasket.isCompleted = false;
+                                userBasket.TotalPrice = 0;
+                                basketService.Add(userBasket);
+                            }
+                            //Sessiondaki Sepeti Gez
+                            foreach (var item in basketItemsForSession.Entity.ToList())
+                            {
+                                //Eğer Bu item kullanıcı Sepetinde yoksa ekle
+                                if (basketItemsForUser.Where(x=> x.ProductId==item.ProductId).FirstOrDefault()==null)
+                                {
+                                    basketItemService.Add(new BasketItem()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        BasketId = userBasket.Id,
+                                        isActive = true,
+                                        Price = item.Product.Price,
+                                        Qty = 1,
+                                        ProductId = item.ProductId
+                                    });
+                                }
+                                else
+                                {
+                                    //Eğer Bu item kullanıcı Sepetinde varsa sayısını +=1 yap
+                                    var updateModel =  basketItemService.Get(x => x.Id == item.Id).Entity;
+                                    updateModel.Qty += 1;
+                                    basketItemService.Update(updateModel);
+                                }
+                            }
+                        }
+                    }
+                }
                 
+
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                return RedirectToAction("Index","Home",new {login=1 });
+                return RedirectToAction("Index", "Home", new { login = 1 });
             }
 
 
@@ -129,19 +201,99 @@ namespace Harlem.Web.Controllers
         }
         //Yalnızca Auth olduysa
 
-        public IActionResult MyAdress(Guid id)
+        public IActionResult MyAddress()
         {
+            var claimIdValue = this.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
+            if (claimIdValue == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            Guid id = Guid.Parse(claimIdValue);
             //Contexten alınacak
             var entity = accountUserAddressService.GetAll(x => x.isActive == true && x.UserId == id);
             if (entity.Status == Enums.BLLResultType.Success)
             {
                 return View(entity.Entity);
-
             }
             return View();
 
         }
+        [HttpGet]
+        public IActionResult UpdateAddress(Guid id)
+        {
+            var entity = accountUserAddressService.Get(x => x.Id == id);
+            if (entity.Status == Enums.BLLResultType.Success)
+            {
+                ViewBag.Title = "Adres Güncelleme";
+                ViewBag.Link = "/Account/UpdateAddress";
 
+                return View("AddressUpdateForm",entity.Entity);
+            }
+            else
+            {    
+                return BadRequest();
+            }
+        }
+        [HttpPost]
+        public IActionResult UpdateAddress(UserAddressDTO addressDTO)
+        {
+            var claimIdValue = this.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
+            if (claimIdValue == null)
+            {
+                return RedirectToAction("Index", "home");
+            }
+            Guid id = Guid.Parse(claimIdValue);
+            //Contexten alınacak
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("MyAddress", "Account");
+            }
+            var adres = accountUserAddressService.Get(x => x.isActive == true && x.Id == addressDTO.Id);
+            if (adres.Status == Enums.BLLResultType.Success)
+            {
+                var entity = adres.Entity;
+                entity.Name = addressDTO.Name;
+                entity.AddressDetail = addressDTO.AddressDetail;
+               var  status = accountUserAddressService.Update(entity);
+                if (status.Status==Enums.BLLResultType.Success)
+                {
+                    return RedirectToAction("MyAddress", "Account");
+
+                }
+                else
+                {
+                    return BadRequest();
+
+                }
+
+            }
+            return BadRequest();
+        }
+        [HttpPost]
+        public IActionResult NewAddress(AccountUserAddress address)
+        {
+            var claimIdValue = this.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
+            if (claimIdValue == null)
+            {
+                return RedirectToAction("Index", "home");
+            }
+            Guid id = Guid.Parse(claimIdValue);
+            //Contexten alınacak
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("MyAddress", "Account");
+            }
+            address.Id = Guid.NewGuid();
+            address.isActive = true;
+            address.UserId = id;
+            var adres = accountUserAddressService.Add(address);
+            if (adres.Status == Enums.BLLResultType.Success)
+            {
+
+                return RedirectToAction("MyAddress", "Account");
+            }
+            return BadRequest();
+        }
         public IActionResult DeleteAdress(Guid id)
         {
             //Contexten alınacak
@@ -153,22 +305,26 @@ namespace Harlem.Web.Controllers
                 return View(entity.Entity);
 
             }
-            return View();
+            return RedirectToAction("MyAddress", "Account");
 
         }
 
-        public IActionResult NewAdress()
+        public IActionResult NewAddress()
         {
-            return View();
+            ViewBag.Title = "Adres Güncelleme";
+            ViewBag.Link = "/Account/NewAddress";
+
+            return View("AddressUpdateForm", new AccountUserAddress());
         }
 
         [HttpGet]
         public IActionResult AddBasket(Guid id)
         {
+           
             Basket basket;
             var sessionId = Guid.Empty;
             var userId = Guid.Empty;
-            var product = productService.Get(x => x.Id == id).Entity;
+            var product = productService.Get(x => x.Id == id && x.isActive==true).Entity;
             if (HttpContext.Request.Cookies["UserId"] == null)
             {
                 if (HttpContext.Request.Cookies["SessionId"] != null)
@@ -186,14 +342,8 @@ namespace Harlem.Web.Controllers
             }
             else
             {
-                //Kullanıcı Oturum Açtıysa
-                //UserId Set et
+                Guid.TryParse(this.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault(), out userId);
             }
-
-
-
-
-
             if (userId != Guid.Empty)
             {
                 //KULLANICININ SEPETİ VARMI ?
@@ -264,6 +414,7 @@ namespace Harlem.Web.Controllers
         }
         public IActionResult Basket()
         {
+           
             return View();
         }
     }

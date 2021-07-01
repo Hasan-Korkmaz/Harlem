@@ -10,8 +10,9 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Globalization;
-
+using System.Threading;
 
 namespace Harlem.Web
 {
@@ -62,7 +63,7 @@ namespace Harlem.Web
             .AddCookie("CustomerCookie", options =>
             {
                 options.Cookie.Name = "CustomerCookie";
-                options.LoginPath = "/Account/Login";
+                options.LoginPath = "/Home/Login?login=1";
                 options.LogoutPath = "/Account/Logout";
             }).AddCookie("BackofficeCookie",
                            options =>
@@ -75,8 +76,10 @@ namespace Harlem.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime)
         {
+            applicationLifetime.ApplicationStopping.Register(OnShutdown);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -124,6 +127,24 @@ namespace Harlem.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+        private void OnShutdown()
+        {
+            //Aplication Closing
+            for (int i = 3; i > 0; i--)
+            {
+                Console.WriteLine("\t*******************************************" + Environment.NewLine +
+                                    "\t*                                         *" + Environment.NewLine +
+                                    "\t*                                         *" + Environment.NewLine +
+                                    "\t*                                         *" + Environment.NewLine +
+                                    "\t*           ...Harlem System...           *" + Environment.NewLine +
+                                    "\t*            ...ShutDown...               *" + Environment.NewLine +
+                                    "\t*                  "+i+"                      *" + Environment.NewLine +
+                                    "\t*                                         *" + Environment.NewLine +
+                                    "\t*                                         *" + Environment.NewLine +
+                                    "\t*******************************************");
+                Thread.Sleep(1000);
+            }
         }
     }
 }
