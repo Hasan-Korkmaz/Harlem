@@ -75,7 +75,7 @@ namespace Harlem.Web.Controllers
                 {
                     var sessionId = Guid.Parse(HttpContext.Request.Cookies["SessionId"]);
                     //Kullanıcının Sessiondaki Sepeti
-                    var accountHaveBasketSessionBase = basketService.Get(x => x.SessionId == sessionId);
+                    var accountHaveBasketSessionBase = basketService.Get(x => x.SessionId == sessionId && x.isCompleted==false);
                     //Kullanıcının Normal Sepeti
                     var accountHaveBasketUserBase = basketService.Get(x => x.AccountUserId == user.Id && x.isCompleted == false);
                     if (accountHaveBasketSessionBase.Status == Enums.BLLResultType.Success)
@@ -121,7 +121,6 @@ namespace Harlem.Web.Controllers
                                         Id = Guid.NewGuid(),
                                         BasketId = userBasket.Id,
                                         isActive = true,
-                                        Price = item.Product.Price,
                                         Qty = 1,
                                         ProductId = item.ProductId
                                     });
@@ -354,7 +353,7 @@ namespace Harlem.Web.Controllers
             if (userId != Guid.Empty)
             {
                 //KULLANICININ SEPETİ VARMI ?
-                var accountHaveBasket = basketService.Get(x => x.AccountUserId == userId);
+                var accountHaveBasket = basketService.Get(x => x.AccountUserId == userId && x.isCompleted==false);
                 if (accountHaveBasket.Status == Enums.BLLResultType.Success)
                 {
                     basket = accountHaveBasket.Entity;
@@ -408,7 +407,6 @@ namespace Harlem.Web.Controllers
                     InsertDateTime = DateTime.Now,
                     isActive = true,
                     isDelete = false,
-                    Price = product.Price,
                     ProductId = product.Id,
                     BasketId = basket.Id,
                     Qty = 1
@@ -417,12 +415,14 @@ namespace Harlem.Web.Controllers
             }
 
 
-            return View("Basket");
+            return View("GetBasket");
         }
+        [AllowAnonymous]
         public IActionResult GetBasket()
         {
             List<BasketItem> basketItems = new List<BasketItem>() ;
             Basket basket = new Basket();
+            basket.BasketItem = basketItems;
             Guid userId =Guid.Empty;
             if (User.Identity.IsAuthenticated)
             {
@@ -430,7 +430,7 @@ namespace Harlem.Web.Controllers
             }
             if (userId!=Guid.Empty)
             {
-              var basketStat=  basketService.Get(x => x.AccountUserId == userId);
+              var basketStat=  basketService.Get(x => x.AccountUserId == userId&& x.isCompleted==false);
                 if (basketStat.Status==Enums.BLLResultType.Success)
                 {
                     var q= basketItemService.GetAllWithProduct(x => x.BasketId == basketStat.Entity.Id);
@@ -439,11 +439,11 @@ namespace Harlem.Web.Controllers
                         decimal total = 0;
                         foreach (var item in q.Entity)
                         {
-                            total=item.Price*item.Qty;
+                            total=item.Product.Price*item.Qty;
                         }
                         basketStat.Entity.TotalPrice = total;
                         basketService.Update(basketStat.Entity);
-                        basketStat.Entity.BasketItem = basketItems;
+                        basketStat.Entity.BasketItem = q.Entity;
                         basket = basketStat.Entity;
                     }
                 }

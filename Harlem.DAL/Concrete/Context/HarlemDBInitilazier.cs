@@ -263,7 +263,6 @@ namespace Harlem.DAL.Concrete.Context
             context.AddRange(seedMenagementUser);
             context.SaveChanges();
 
-
             return true;
         }
         

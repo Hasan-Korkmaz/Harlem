@@ -6,7 +6,6 @@ namespace Harlem.Entity.DbModels
 {
     public class Order : BaseEntity
     {
-        public Guid AddressId { get; set; }
         public Guid AccountUserId { get; set; }
         public Guid AccountUserAddressId { get; set; }
         public PaymentType PaymentType { get; set; }

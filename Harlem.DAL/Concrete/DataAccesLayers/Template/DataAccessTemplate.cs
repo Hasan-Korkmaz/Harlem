@@ -11,7 +11,7 @@ namespace Harlem.DAL.Concrete.DataAccesLayers.Template
 {
     public class DataAccessTemplate<TRepository, TEntity> : IDataAccesTemplate<TEntity> where TRepository : DbContext, new() where TEntity : BaseEntity
     {
-        public TEntity Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             using (TRepository Context = new TRepository())
             {
@@ -21,7 +21,7 @@ namespace Harlem.DAL.Concrete.DataAccesLayers.Template
                 return entity;
             }
         }
-        public TEntity Update(TEntity entity)
+        public virtual TEntity Update(TEntity entity)
         {
             using (TRepository Context = new TRepository())
             {
@@ -31,7 +31,7 @@ namespace Harlem.DAL.Concrete.DataAccesLayers.Template
                 return entity;
             }
         }
-        public bool Delete(TEntity entity)
+        public virtual bool Delete(TEntity entity)
         {
             using (TRepository Context = new TRepository())
             {
@@ -41,14 +41,14 @@ namespace Harlem.DAL.Concrete.DataAccesLayers.Template
                 return true;
             }
         }
-        public TEntity Get( Expression<Func<TEntity, bool>> condition = null)
+        public virtual TEntity Get( Expression<Func<TEntity, bool>> condition = null)
         {
             using (TRepository Context = new TRepository())
             {
             return Context.Set<TEntity>().Where(entity => entity.isDelete == false).Where(condition ?? (entity => true)).FirstOrDefault();
             }
         }
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> condition = null)
+        public virtual List<TEntity> GetAll(Expression<Func<TEntity, bool>> condition = null)
         {
             using (TRepository Context = new TRepository())
             {

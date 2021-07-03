@@ -371,17 +371,26 @@ a {
     display: flex;
     align-items: center;
 }
+    .address-content input {
+        cursor: pointer;
+    }
 
 .address-detail {
-    margin-left: 20px;
+    padding-left: 20px;
+    cursor:pointer;
 }
 
 .payment-item {
     display: flex;
 }
+    .payment-item input,.payment-item label {
+        cursor:pointer;
+    }
 
 .payment-detail {
-    margin-left: 15px;
+    padding: 6px;
+    padding-top: 0;
+    padding-left: 10px;
 }
 
 .harlem-btn {
@@ -575,4 +584,24 @@ a {
 {
     background-color:var(--main-hover);
     color:white !important;
+}
+.triangle-animation{
+    font-size:30px;
+}
+.triangle-animation {
+    animation-name: shrinkage;
+    font-size: 24px;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+@keyframes shrinkage {
+    0% {
+        font-size: 24px;
+    }
+    50% {
+        font-size: 60px;
+    }
+    100% {
+        font-size: 24px;
+    }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -83,11 +84,10 @@ namespace Harlem.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                using (var client = new HarlemContext())
+                using (var ctx = new HarlemContext())
                 {
-                    client.Database.EnsureDeleted();
-                    client.Database.EnsureCreated();
-                    HarlemDBInitilazier.SeedData(client);
+                    HarlemDBInitilazier.SeedData(ctx);
+                    ctx.Database.Migrate();
                     app.UseBrowserLink();
 
                 }

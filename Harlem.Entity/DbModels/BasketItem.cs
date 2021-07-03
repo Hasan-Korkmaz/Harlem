@@ -10,7 +10,6 @@ namespace Harlem.Entity.DbModels
 
 
         public int Qty { get; set; }
-        public decimal Price { get; set; }
 
         public Basket Basket { get; set; }
         public Product Product { get; set; }

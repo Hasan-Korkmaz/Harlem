@@ -43,7 +43,12 @@ namespace Harlem.Core.Tools
 
         public enum PaymentType : ushort
         {
-
+            [Description("Nakit")]
+            Nakit=1,
+            [Description("Kredi Kartı")]
+            KrediKarti=2,
+            [Description("Kapida Ödeme")]
+            KapıdaOdeme = 3
         }
 
         public static string GetDescription<T>(this T e) where T : IConvertible
