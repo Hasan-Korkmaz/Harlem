@@ -4,8 +4,10 @@ using Harlem.Entity.DbModels;
 using Harlem.Entity.DTO.Order;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -40,6 +42,7 @@ namespace Harlem.Web.Controllers
         }
         public IActionResult Complete(StartOrder order)
         {
+
             //Todo : Stok Kontrol Ekle
             List<OrderItem> orderItems = new List<OrderItem>();
             Dictionary<Guid, int> stockUpdateProducts = new Dictionary<Guid, int>();
