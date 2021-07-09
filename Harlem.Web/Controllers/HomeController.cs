@@ -27,11 +27,11 @@ namespace Harlem.Web.Controllers
         //Bu yüzden hem izin veriyorum hemde izin vermiyorum ✌✌
         [Authorize(Roles = "Customer", AuthenticationSchemes = "CustomerCookie")]
         [AllowAnonymous]
-        public IActionResult Index(string ReturnUrl, int login = 0)
+        public IActionResult Index(string ReturnUrl)
         {
             
             ViewBag.LoginOpen = false;
-            if (login == 1)
+            if (ReturnUrl != null)
             {
                 ViewBag.LoginOpen = true;
             }

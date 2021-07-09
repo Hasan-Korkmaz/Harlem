@@ -3,7 +3,6 @@ using Harlem.Core.Tools;
 using Harlem.Entity.DbModels;
 using Harlem.Entity.DTO.Users;
 using Harlem.Entity.FrontEndTypes.ViewModels;
-using Harlem.Web.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,7 +26,7 @@ namespace Harlem.Web.Controllers
         IProductService productService;
         IAccountUserAddressService accountUserAddressService;
         IUserService userService;
-        private readonly UserManager userManager;
+      
 
         public AccountController(
             IAccountUserService accountUserService,
@@ -35,15 +34,14 @@ namespace Harlem.Web.Controllers
             IBasketItemService basketItemService,
             IProductService productService,
             IAccountUserAddressService accountUserAddressService,
-            IUserService userService,
-            UserManager userManager) : base(userService)
+            IUserService userService
+            ) : base(userService)
         {
             this.accountUserService = accountUserService;
             this.basketService = basketService;
             this.basketItemService = basketItemService;
             this.productService = productService;
             this.accountUserAddressService = accountUserAddressService;
-            this.userManager = userManager;
             this.userService = userService;
         }
 
@@ -171,6 +169,7 @@ namespace Harlem.Web.Controllers
                 newUser.Surname = registerModel.Surname;
 
                 newUser.Email = registerModel.Mail.ToLower();
+                //Passwordu Hashle
                 newUser.Password = registerModel.Password.Md5Hash();
                 newUser.Phone = registerModel.Phone;
                 newUser.InsertDateTime = DateTime.Now;
@@ -393,7 +392,7 @@ namespace Harlem.Web.Controllers
                 }
             }
 
-            var basketItem = basketItemService.Get(x => x.ProductId == id);
+            var basketItem = basketItemService.Get(x => x.ProductId == id && x.BasketId==basket.Id);
             if (basketItem.Status == Enums.BLLResultType.Success)
             {
                 basketItem.Entity.Qty++;
@@ -415,7 +414,7 @@ namespace Harlem.Web.Controllers
             }
 
 
-            return View("GetBasket");
+            return RedirectToAction("GetBasket","Account");
         }
         [AllowAnonymous]
         public IActionResult GetBasket()
@@ -424,7 +423,7 @@ namespace Harlem.Web.Controllers
             Basket basket = new Basket();
             basket.BasketItem = basketItems;
             Guid userId =Guid.Empty;
-            if (User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
                 Guid.TryParse(this.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault(), out userId);
             }
@@ -439,7 +438,7 @@ namespace Harlem.Web.Controllers
                         decimal total = 0;
                         foreach (var item in q.Entity)
                         {
-                            total=item.Product.Price*item.Qty;
+                            total+=item.Product.Price*item.Qty;
                         }
                         basketStat.Entity.TotalPrice = total;
                         basketService.Update(basketStat.Entity);

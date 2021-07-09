@@ -20,14 +20,18 @@ namespace Harlem.Web.Controllers
         IBasketService basketService;
         IOrderService orderService;
         IProductService productService;
+        IOrderItemService orderItemService;
         public OrderController(IUserService userService,
                                IBasketService basketService,
-                               IOrderService orderService, IProductService productService) : base(userService)
+                               IOrderService orderService, 
+                               IProductService productService,
+                               IOrderItemService orderItemService) : base(userService)
         {
             this.userService = userService;
             this.basketService = basketService;
             this.orderService = orderService;
             this.productService = productService;
+            this.orderItemService = orderItemService;
         }
         [Authorize(Roles = "Customer", AuthenticationSchemes = "CustomerCookie")]
         public IActionResult Index()
@@ -38,10 +42,7 @@ namespace Harlem.Web.Controllers
         {
             List<OrderItem> orderItems = new List<OrderItem>();
             Dictionary<Guid, int> stockUpdateProducts = new Dictionary<Guid, int>();
-            Guid userId = Guid.Empty;
             Result<Order> orderStat=new Result<Order>();
-            Guid.TryParse(this.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault(), out userId);
-
             var basketResult =  basketService.Get(x => x.Id == order.BasketId && x.isCompleted==false);
             decimal total = 0;
             if (basketResult.Status==Core.Tools.Enums.BLLResultType.Success)
@@ -59,12 +60,13 @@ namespace Harlem.Web.Controllers
                     });
                     total += item.Product.Price * item.Qty;
                     stockUpdateProducts.Add(item.ProductId, item.Qty);
+
                 }
                 //Sepet yerine Order oluşturdum ve taşıdım
                 orderStat = orderService.Add(new Entity.DbModels.Order()
                 {
                     Id = Guid.NewGuid(),
-                    AccountUserId=userId,
+                    AccountUserId=User.Id,
                     isActive=true,
                     PaymentType=order.PaymentType,
                     AccountUserAddressId= order.AddressId,
@@ -73,6 +75,12 @@ namespace Harlem.Web.Controllers
                     OrderItem=orderItems,
                     OrderDate=DateTime.Now,
                 });
+                foreach (var item in orderItems)
+                {
+                   item.OrderId=orderStat.Entity.Id;
+                    orderItemService.Add(item);
+                }
+               
                 //Siparişi geçilen ürünleri stoktan düştüm
                 foreach (var item in stockUpdateProducts)
                 {
@@ -86,9 +94,24 @@ namespace Harlem.Web.Controllers
             }
             if (orderStat.Status==Enums.BLLResultType.Success)
             {
-                return View(new { Status=true,Message="SİPARİŞİNİZ BAŞARILI BİR ŞEKİLDE ALINMIŞTIR."});
+                return View(new Entity.FrontEndTypes.StatusMessage() { Status=true,Message="SİPARİŞİNİZ BAŞARILI BİR ŞEKİLDE ALINMIŞTIR."});
             }
-            return View(new { Status = false, Message = "SİPARİŞ ALINIRKEN BİR HATA OLUŞTU" });
+            return View(new Entity.FrontEndTypes.StatusMessage() { Status = false, Message = "SİPARİŞ ALINIRKEN BİR HATA OLUŞTU" });
+
+        }
+
+        public IActionResult GetOrders()
+        {
+         var orderResponse=   orderService.GetAllOrder(x => x.AccountUserId == User.Id);
+            if (orderResponse.Status==Enums.BLLResultType.Success)
+            {
+                return View(orderResponse.Entity);
+
+            }
+            else
+            {
+                return RedirectToAction("InternalServerError", "Error");
+            }
 
         }
     }

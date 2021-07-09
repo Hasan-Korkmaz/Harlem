@@ -1,0 +1,47 @@
+﻿@model List<Harlem.Entity.DbModels.Order>
+<div class="w-100 d-flex justify-content-center  ">
+
+    <div style="background-color: white;" class="order-item-list shadow-lg rounded-3 p-5 col-8">
+        @foreach (var item in Model)
+        {
+            <div class="d-flex flex-column">
+                <div class="col-4 ">Tarih:              <span class="fw-bold"> @item.OrderDate </span></div>
+                <div class="col-4 ">Ödeme Tipi :        <span class="fw-bold"> @item.PaymentType.GetDescription() </span></div>
+                <div class="col-4 ">Teslim Durumu :     <span class="fw-bold">@(item.isDelivered==false? "Teslim Edilmedi":"Teslim Edildi") </span></div>
+            </div>
+            <div class="card mb-5">
+                <div class="card-header d-flex">
+                    <div class="col-6">
+                        Ürün
+                    </div>
+                    <div class="col-3">
+                        Adet
+                    </div>
+                    <div class="col-3">
+                        Fiyat
+                    </div>
+                </div>
+                <div class="card-body ">
+                    @foreach (var product in item.OrderItem)
+                    {
+                        <div class="basket-item d-flex">
+                            <div class="col-6">
+                                @(product.Product.Name)
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    @(product.Qty)
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    @(product.Price)
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

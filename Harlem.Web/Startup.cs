@@ -58,13 +58,11 @@ namespace Harlem.Web
             services.AddScoped<IOrderService, OrderManager>();
             services.AddScoped<IOrderItemService, OrderItemManager>();
 
-            services.AddScoped<Security.UserManager>();
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie("CustomerCookie", options =>
             {
                 options.Cookie.Name = "CustomerCookie";
-                options.LoginPath = "/Home/Login?login=1";
+                options.LoginPath = "/Home/Index";
                 options.LogoutPath = "/Account/Logout";
             }).AddCookie("BackofficeCookie",
                            options =>
@@ -86,6 +84,7 @@ namespace Harlem.Web
                 app.UseDeveloperExceptionPage();
                 using (var ctx = new HarlemContext())
                 {
+                    ctx.Database.EnsureCreated();
                     HarlemDBInitilazier.SeedData(ctx);
                     ctx.Database.Migrate();
                     app.UseBrowserLink();
@@ -94,7 +93,7 @@ namespace Harlem.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/InternalServerError");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

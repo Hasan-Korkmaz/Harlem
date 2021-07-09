@@ -2,5 +2,8 @@
 
 namespace Harlem.DAL.Abstract
 {
-    public interface IUserDAL : Template.IDataAccesTemplate<User> { }
+    public interface IUserDAL : Template.IDataAccesTemplate<User> {
+    
+
+    }
 }

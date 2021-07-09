@@ -93,6 +93,7 @@ namespace Harlem.DAL.Concrete.Context
             {
                 var productId = Guid.Parse("6bc5703e-743c-434f-9008-8559bf1f7597");
                 var productId2 = Guid.Parse("FFB012E1-9607-4713-9C68-E1C118F1F2A1");
+                var productId3 = Guid.Parse("ebe313b6-5254-4417-8ec7-d95553af5715");
                 seedProduct.Add(new Product()
                 {
                     Id = productId,
@@ -121,7 +122,21 @@ namespace Harlem.DAL.Concrete.Context
                     isDelete = false,
                     ProductImages = new List<ProductImage>()
                 });
-           
+                seedProduct.Add(new Product()
+                {
+                    Id = productId3,
+                    Name = "Borcam CAM Bardak",
+                    InsertDateTime = DateTime.Now,
+                    Category = seedCategory[1],
+                    Price = 9.99m,
+                    ProductDetail = "Şuan çay içerken kullandığım bardaktır. ",
+                    StockType = Enums.StockType.Adet,
+                    StockPiece = 15,
+                    isActive = true,
+                    isDelete = false,
+                    ProductImages = new List<ProductImage>()
+                });
+
                 seedProduct[0].ProductImages.Add(new ProductImage()
                 {
                     Id = Guid.NewGuid(),
@@ -192,6 +207,36 @@ namespace Harlem.DAL.Concrete.Context
                     PublicURL = @"/Images/Product/ffb012e1-9607-4713-9c68-e1c118f1f2a1/F96D1FBE-7242-4DE9-8FD5-D86E33243D8F.jpg",
                     ProductId = productId2,
                     Order = 3,
+                    InsertDateTime = DateTime.Now,
+                    isActive = true,
+                    isDelete = false
+
+                });
+                seedProduct[2].ProductImages.Add(new ProductImage()
+                {
+                    Id = Guid.NewGuid(),
+                    ImageName = "Cam Bardak 1",
+                    ImageAltValue = "Borcam_Cam_Bardak_Ön",
+                    PhysicalName = "ebe313b6-5254-4417-8ec7-d95553af5715",
+                    PhysicalPath = @"C:\Users\HasanKorkmaz\source\repos\Harlem\Harlem.Web\wwwroot\Images\Product\ebe313b6-5254-4417-8ec7-d95553af5715\2071c423-cf07-4fd2-8196-e07023967048.jpg",
+                    PublicURL = @"/Images/Product/ebe313b6-5254-4417-8ec7-d95553af5715/2071c423-cf07-4fd2-8196-e07023967048.jpg",
+                    ProductId = productId3,
+                    Order = 1,
+                    InsertDateTime = DateTime.Now,
+                    isActive = true,
+                    isDelete = false
+
+                });
+                seedProduct[2].ProductImages.Add(new ProductImage()
+                {
+                    Id = Guid.NewGuid(),
+                    ImageName = "Seed Value",
+                    ImageAltValue = "Borcam_Cam_Bardak_Yan",
+                    PhysicalName = "37e7bab6-6d9c-49b1-be79-d89da35edf92.jpg",
+                    PhysicalPath = @"C:\Users\HasanKorkmaz\source\repos\Harlem\Harlem.Web\wwwroot\Images\Product\ebe313b6-5254-4417-8ec7-d95553af5715\37e7bab6-6d9c-49b1-be79-d89da35edf92.jpg",
+                    PublicURL = @"/Images/Product/ebe313b6-5254-4417-8ec7-d95553af5715/37e7bab6-6d9c-49b1-be79-d89da35edf92.jpg",
+                    ProductId = productId3,
+                    Order = 2,
                     InsertDateTime = DateTime.Now,
                     isActive = true,
                     isDelete = false

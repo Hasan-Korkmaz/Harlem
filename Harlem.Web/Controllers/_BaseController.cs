@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Harlem.Entity.DTO.Users;
 
 namespace Harlem.Web.Controllers
 {
     public abstract class _BaseController : Controller
     {
         IUserService userService;
+         internal UserDTO User { get; set; }
         public _BaseController(IUserService userService)
         {
             this.userService = userService;
@@ -28,6 +30,7 @@ namespace Harlem.Web.Controllers
                 {
                     userItem.FullName = ((userItem.Name + " " + userItem.Surname).Length < 30 ? (userItem.Name + " " + userItem.Surname).ToString() : (userItem.Name + " " + userItem.Surname).Substring(0,30) + ".");
                     ViewBag.ActiveUser = userItem;
+                    User = userItem;
                 }
           
             }

@@ -18,6 +18,6 @@ namespace Harlem.Entity.DbModels
         public IFormFile Image { get; set; }
         public int Order { get; set; }
         public Guid ProductId { get; set; }
-        public  Product Product { get; set; }
+        public Product Product { get; set; }
     }
 }

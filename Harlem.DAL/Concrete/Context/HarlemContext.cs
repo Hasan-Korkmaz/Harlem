@@ -10,7 +10,7 @@ namespace Harlem.DAL.Concrete.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.;Database=HarlemDB;Trusted_Connection=True;ConnectRetryCount=0");
+                optionsBuilder.UseSqlServer(@"Server=.;Database=HarlemDB;Trusted_Connection=True;");
             }
            
         }

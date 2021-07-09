@@ -13,7 +13,7 @@ namespace Harlem.BLL.Concrete.Services
     {
         public AccountUserAddressManager(IAccountUserAddressDAL accountUserAddressDAL) : base(accountUserAddressDAL)
         {
-            this._dataProvider = accountUserAddressDAL;
+          
         }
 
         public Result<List<UserAddressDTO>> GetAllDTO(Expression<Func<AccountUserAddress, bool>> condition = null)

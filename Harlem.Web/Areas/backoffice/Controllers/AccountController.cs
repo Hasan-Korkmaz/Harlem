@@ -1,6 +1,5 @@
 ﻿using Harlem.BLL.Abstract;
 using Harlem.Entity.DTO.Users;
-using Harlem.Web.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,12 +12,10 @@ namespace Harlem.Web.Areas.backoffice.Controllers
     [Area("BackOffice")]
     public class AccountController : Controller
     {
-        private readonly UserManager userManager;
         IUserService userService;
 
-        public AccountController(UserManager userManager, IUserService userService)
+        public AccountController( IUserService userService)
         {
-            this.userManager = userManager;
             this.userService = userService;
         }
 

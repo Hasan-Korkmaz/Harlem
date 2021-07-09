@@ -13,8 +13,8 @@
             SEPETİ GÖREBİLMEK İÇİN GİRİŞ YAPMANIZ GEREKMEKTEDİR
         </div>
         <div>
-            <a type="button" class="btn btn-primary harlem-btn  background-color-main" href="\Home\Index?login=1">GİRİŞ YAP</a>
-            <a type="button" class="btn btn-primary harlem-btn  background-color-main" href="\Home\Index?login=1">KAYIT OL</a>
+            <a type="button" class="btn btn-primary harlem-btn  background-color-main" href="\Home\Index?returnurl/Home/Index">GİRİŞ YAP</a>
+            <a type="button" class="btn btn-primary harlem-btn  background-color-main" href="\Home\Index?returnurl/Home/Index">KAYIT OL</a>
         </div>
     </div>
     }
@@ -157,7 +157,7 @@
             $('#PaymentTypeDisplay').html($(this).attr("check-val"))
         } 
     });
-    $('input[name="Address"]').bind('change', function (v) {
+    $('input[name="AddressId"]').bind('change', function (v) {
         if ($(this).is(':checked')) {
             $('#AddressNameDisplay').html($(this).attr("check-val"))
         }
