@@ -1,5 +1,5 @@
 # Harlem
-![alt text](https://github.com/Hasan-Korkmaz/Harlem/LoginRegister.png)
-![alt text](https://github.com/Hasan-Korkmaz/Harlem/Main.png)
-![alt text](https://github.com/Hasan-Korkmaz/Harlem/order.png)
-![alt text](https://github.com/Hasan-Korkmaz/Harlem/panel.png)
+![Login](https://github.com/Hasan-Korkmaz/Harlem/GitImages/LoginRegister.png)
+![Anasayfa](https://github.com/Hasan-Korkmaz/Harlem/GitImages/Main.png)
+![Order](https://github.com/Hasan-Korkmaz/Harlem/GitImages/order.png)
+![Panel](https://github.com/Hasan-Korkmaz/Harlem/GitImages/panel.png)
