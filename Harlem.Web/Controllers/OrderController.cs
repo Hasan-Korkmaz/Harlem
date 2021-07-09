@@ -42,7 +42,8 @@ namespace Harlem.Web.Controllers
         }
         public IActionResult Complete(StartOrder order)
         {
-            Debug.Write(JsonConvert.SerializeObject(order));
+
+            //Todo : Stok Kontrol Ekle
             List<OrderItem> orderItems = new List<OrderItem>();
             Dictionary<Guid, int> stockUpdateProducts = new Dictionary<Guid, int>();
             Result<Order> orderStat=new Result<Order>();
